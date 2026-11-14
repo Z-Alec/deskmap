@@ -133,7 +133,12 @@ def render(setup: Setup) -> str:
         bx, by, bw, bh = g.boxes[b]
         if k == "spine":
             sx = g.spine_x[p["spine"]]
-            sa, sb = "top", ("right" if sx > bx + bw / 2 else "left")
+            sb = "right" if sx > bx + bw / 2 else "left"
+            lo, hi = (bx + bw, sx) if sb == "right" else (sx, bx)
+            in_the_way = any(
+                n not in (a, b) and abs(oy - by) < 1 and ox < hi and ox + ow > lo
+                for n, (ox, oy, ow, oh) in g.boxes.items())
+            sa, sb = "top", ("top" if in_the_way else sb)
         elif k in ("gutter", "gutter_down"):
             sa, sb = "top", "top"
         elif k == "down":
@@ -201,9 +206,15 @@ def render(setup: Setup) -> str:
                 n = spine_count.get(p["spine"], 0)
                 spine_count[p["spine"]] = n + 1
                 sx = g.spine_x[p["spine"]] + ((n % 5) - 2) * 2.2
-                pts += [(sx, gy), (sx, by), (bx, by)]
-                ext = spine_extent.setdefault(p["spine"], [gy, by])
-                ext[0], ext[1] = min(ext[0], gy), max(ext[1], by)
+                if p["sb"] == "top":   # something in the way: come in from above
+                    jy = by - 10 - (n % 5) * 4
+                    pts += [(sx, gy), (sx, jy), (bx, jy), (bx, by)]
+                    end = jy
+                else:
+                    pts += [(sx, gy), (sx, by), (bx, by)]
+                    end = by
+                ext = spine_extent.setdefault(p["spine"], [gy, end])
+                ext[0], ext[1] = min(ext[0], gy), max(ext[1], end)
             else:
                 pts += [(bx, gy), (bx, by)]
         elif k == "down":
@@ -294,14 +305,14 @@ def render(setup: Setup) -> str:
                    f"<title>{escape(tip)}</title></path>")
 
     # Spines, drawn over the cables they carry
-    for cid, (top, bot) in spine_extent.items():
+    for si, (cid, (top, bot)) in enumerate(spine_extent.items()):
         x = g.spine_x[cid]
         label = setup.channels[cid].get("label") or cid.replace("_", " ")
         out.append(f'<line x1="{_fmt(x)}" y1="{_fmt(top)}" x2="{_fmt(x)}" y2="{_fmt(bot)}" '
                    f'stroke="{SPINE_COLOUR}" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round">'
                    f"<title>{escape(label)}</title></line>")
         lx = x - 12 if x < g.x0 + g.W / 2 else x + 16
-        ly = (g.y0 + g.bottom) / 2
+        ly = (g.y0 + g.bottom) / 2 + si * 110   # stagger so neighbouring labels don't collide
         out.append(f'<text x="{_fmt(lx)}" y="{_fmt(ly)}" font-size="10" fill="{SPINE_COLOUR}" '
                    f'text-anchor="middle" transform="rotate(-90 {_fmt(lx)} {_fmt(ly)})">{escape(label)}</text>')
 

@@ -32,7 +32,7 @@
 <line x1="45" y1="118" x2="45" y2="746.6" stroke="#059669" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round"><title>Cable spine</title></line>
 <text x="33" y="363.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 33 363.5)">Cable spine</text>
 <line x1="835" y1="97" x2="835" y2="665.4" stroke="#059669" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round"><title>Power drop</title></line>
-<text x="851" y="363.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 851 363.5)">Power drop</text>
+<text x="851" y="473.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 851 473.5)">Power drop</text>
 <rect x="95" y="715" width="175" height="44" rx="6" fill="#d1fae5" stroke="#059669"><title>Mid-tower PC</title></rect>
 <text x="182.5" y="740.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">PC</text>
 <rect x="670" y="276" width="137.5" height="137.5" rx="6" fill="#dbeafe" stroke="#2563eb"><title>laptop</title></rect>
