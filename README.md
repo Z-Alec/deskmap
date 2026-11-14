@@ -2,7 +2,7 @@
 
 Describe your desk setup in a YAML file: the desk, where each device sits, and every cable between them. deskmap checks the file and draws a to-scale, top-down diagram of it.
 
-![A standing desk shared by a PC and a MacBook](examples/standing-desk-pc-and-mac.svg)
+![A standing desk shared by a PC and a laptop](examples/standing-desk-pc-and-laptop.svg)
 
 It's built for two jobs:
 
@@ -13,14 +13,14 @@ It's built for two jobs:
 
 ```sh
 pip install deskmap            # or: pip install -e . from a clone
-deskmap check examples/standing-desk-pc-and-mac.yaml
-deskmap render examples/standing-desk-pc-and-mac.yaml   # writes the .svg next to it
+deskmap check examples/standing-desk-pc-and-laptop.yaml
+deskmap render examples/standing-desk-pc-and-laptop.yaml   # writes the .svg next to it
 ```
 
 `check` validates the file and prints the stretch report:
 
 ```
-examples/standing-desk-pc-and-mac.yaml: 15 devices, 19 cables, 0 errors, 3 warnings
+examples/standing-desk-pc-and-laptop.yaml: 15 devices, 19 cables, 0 errors, 3 warnings
   warning: cables[7] (pc -> monitor_left): cable type not set yet
   warning: cables[8] (pc -> monitor_right): cable type not set yet
   warning: cables[18] (power_board -> wall): runs between the moving desk and a static zone without a spine; it needs at least 650 mm of slack
@@ -78,7 +78,7 @@ All distances are millimetres. The full definition is [deskmap/schema.json](desk
 | `zones` | Where things live. Each has a `kind` (`surface`, `underneath`, `external`) and `moves_with_desk`. Leave it out to get the defaults: `desk`, `tray` (moves), `floor` (static), `wall` |
 | `channels` | Named cable routes: `edge` (along the back of the desk) or `spine` (a vertical drop at `x_mm`; negative is off the left side, beyond the desk width is off the right) |
 | `devices` | Keyed by id. `zone` is required; also `label`, `kind`, `position`, `used_by`, `model`, `ports`, `status` (`owned`, `planned`, `to_buy`), `color`, `notes` |
-| `cables` | `from` and `to` (a device id, optionally with a port: `macbook.hdmi`), `type`, `via` (channel ids), `length_m`, `status`, `note` |
+| `cables` | `from` and `to` (a device id, optionally with a port: `laptop.hdmi`), `type`, `via` (channel ids), `length_m`, `status`, `note` |
 
 **Positions.** On the desk, `x`/`y` are measured from the desk's back-left corner, with `y` growing toward you; `w` and `d` are width and depth. Underneath and external devices only need `x` and `w`; each underneath zone is drawn as a row below the desk.
 

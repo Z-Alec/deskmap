@@ -167,7 +167,7 @@
     "endpoint": {
       "type": "string",
       "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_-]+)?$",
-      "description": "A device id, optionally with a port: `macbook` or `macbook.hdmi`."
+      "description": "A device id, optionally with a port: `laptop` or `laptop.hdmi`."
     },
     "cable": {
       "type": "object",

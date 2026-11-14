@@ -1,13 +1,14 @@
 # yaml-language-server: $schema=../deskmap/schema.json
-# A standing desk shared by a tower PC and a MacBook.
+# A standing desk shared by a tower PC and a laptop.
 # The PC stays on the floor, so its cables run up a cable spine; everything
 # else lives on the desk or in the tray and moves with it. A USB switch shares
-# the keyboard and mouse; the monitors are switched with their input buttons.
+# the keyboard; the mouse receiver sits in the laptop's adapter; the monitors
+# are switched with their input buttons.
 schema_version: "0.1"
-name: Standing desk, PC + MacBook
+name: Standing desk, PC + laptop
 
 desk:
-  model: 9am HOME Arco
+  model: Electric standing desk
   size_mm: { width: 1500, depth: 750 }
   height_range_mm: [630, 1280]
   status: to_buy
@@ -28,38 +29,37 @@ devices:
   pc:
     label: PC
     kind: computer
-    model: Fractal Design Meshify C tower
+    model: Mid-tower PC
     zone: floor
     position: { x: 50, w: 350 }
     notes: On a rolling tray; lock the castors.
-  macbook:
-    label: MacBook
+  laptop:
+    label: Laptop
     kind: laptop
-    model: MacBook Pro 14" (M5 Pro)
     zone: desk
     position: { x: 1200, y: 200, w: 275, d: 275 }
-    ports: [magsafe, thunderbolt, hdmi]
+    ports: [usb_c_upper, usb_c_lower, hdmi]
 
   # On the desk
   usbc_adapter:
     label: Adapter
     kind: hub
-    model: USB-C multiport adapter (HDMI, USB-A, USB-C PD)
+    model: USB-C multiport adapter (HDMI, USB-A, USB-C charging)
+    ports: [hdmi, usb_a, usb_c_charging]
     zone: desk
-    used_by: [macbook]
+    used_by: [laptop]
     position: { x: 1000, y: 300, w: 175, d: 90 }
   monitor_left:
     label: Left monitor
     kind: display
     zone: desk
-    used_by: [pc, macbook]
+    used_by: [pc, laptop]
     position: { x: 50, y: 40, w: 425, d: 90 }
   monitor_right:
-    label: AOC monitor
+    label: Right monitor
     kind: display
-    model: AOC Q27G2S
     zone: desk
-    used_by: [pc, macbook]
+    used_by: [pc, laptop]
     position: { x: 512, y: 40, w: 450, d: 90 }
   monitor_arm:
     label: Arm base
@@ -85,18 +85,18 @@ devices:
     used_by: [pc]
     position: { x: 1000, y: 40, w: 175, d: 110 }
   keyboard:
-    label: Keychron Q1
+    label: Keyboard
     kind: input
-    model: Keychron Q1 (wired)
+    model: Wired mechanical keyboard
     zone: desk
-    used_by: [pc, macbook]
+    used_by: [pc, laptop]
     position: { x: 200, y: 550, w: 550, d: 125 }
   mouse:
     label: Mouse
     kind: input
-    model: Logitech MX Master
+    model: Wireless mouse
     zone: desk
-    used_by: [pc, macbook]
+    used_by: [pc, laptop]
     position: { x: 840, y: 550, w: 150, d: 125 }
 
   # In the tray
@@ -104,14 +104,14 @@ devices:
     label: USB switch
     kind: switch
     zone: tray
-    used_by: [pc, macbook]
+    used_by: [pc, laptop]
     status: to_buy
     position: { x: 450, w: 250 }
-  mac_charger:
-    label: Mac charger
+  laptop_charger:
+    label: Charger
     kind: charger
     zone: tray
-    used_by: [macbook]
+    used_by: [laptop]
     position: { x: 750, w: 220 }
   power_board:
     label: Power board
@@ -128,16 +128,16 @@ devices:
     position: { x: 0, w: 180 }
 
 cables:
-  # Mac side
-  - { from: macbook.hdmi, to: monitor_right, type: hdmi, via: [back_edge] }
-  - { from: macbook.thunderbolt, to: usbc_adapter, type: usb_c, note: tethered adapter cable }
+  # Laptop side
+  - { from: laptop.hdmi, to: monitor_right, type: hdmi, via: [back_edge] }
+  - { from: laptop.usb_c_upper, to: usbc_adapter, type: usb_c, note: tethered adapter cable }
   - { from: usbc_adapter.hdmi, to: monitor_left, type: hdmi, via: [back_edge] }
-  - { from: usbc_adapter.usb_a, to: usb_switch, type: usb_a }
-  - { from: mac_charger, to: usbc_adapter, type: usb_c, note: USB-C power passthrough }
+  - { from: laptop_charger, to: usbc_adapter, type: usb_c, note: USB-C power passthrough }
 
   # Shared keyboard and mouse
   - { from: keyboard, to: usb_switch, type: usb_c, note: USB-C to USB-A }
-  - { from: mouse, to: usb_switch, type: wireless, note: receiver plugged into the switch }
+  - { from: usb_switch, to: laptop.usb_c_lower, type: usb_c, note: "takes over the keyboard's USB-C port below the adapter; USB-A to USB-C; the adapter's only USB-A port holds the mouse receiver" }
+  - { from: mouse, to: usbc_adapter.usb_a, type: wireless, note: receiver plugged into the adapter's USB-A port }
 
   # PC: everything climbs the cable spine
   - { from: pc, to: monitor_left, via: [back_edge, pc_spine], note: "DP or HDMI, at least 2 m" }
@@ -151,6 +151,6 @@ cables:
   - { from: monitor_left, to: power_board, type: power, via: [back_edge, power_riser] }
   - { from: monitor_right, to: power_board, type: power, via: [back_edge, power_riser] }
   - { from: speakers, to: power_board, type: power, via: [back_edge, power_riser] }
-  - { from: mac_charger, to: power_board, type: power }
+  - { from: laptop_charger, to: power_board, type: power }
   - { from: pc, to: power_board, type: power, via: [pc_spine] }
   - { from: power_board, to: wall, type: power, note: the only lead from the desk to the wall }

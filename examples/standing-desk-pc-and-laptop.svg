@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1005" height="865" viewBox="0 0 1005 865" font-family="Helvetica, Arial, sans-serif" role="img">
-<title>Standing desk, PC + MacBook</title>
+<title>Standing desk, PC + laptop</title>
 <rect width="100%" height="100%" fill="white"/>
-<text x="70" y="30" font-size="15" font-weight="bold" fill="#1c1917">Standing desk, PC + MacBook</text>
-<text x="70" y="49" font-size="11" fill="#78716c">9am HOME Arco · 1500 x 750 mm · height 630–1280 mm · top-down, drawn to scale</text>
+<text x="70" y="30" font-size="15" font-weight="bold" fill="#1c1917">Standing desk, PC + laptop</text>
+<text x="70" y="49" font-size="11" fill="#78716c">Electric standing desk · 1500 x 750 mm · height 630–1280 mm · top-down, drawn to scale</text>
 <rect x="70" y="176" width="750" height="375" rx="8" fill="#faf7f2" stroke="#a8a29e" stroke-width="1.2"/>
 <text x="845" y="188" font-size="10" fill="#78716c">back</text>
 <text x="845" y="547" font-size="10" fill="#78716c">front (you)</text>
@@ -10,13 +10,13 @@
 <text x="80" y="607" font-size="10" fill="#78716c">UNDERNEATH</text>
 <text x="816" y="636" font-size="10" fill="#78716c" text-anchor="end">Cable tray — moves with the desk</text>
 <text x="816" y="710" font-size="10" fill="#78716c" text-anchor="end">Floor — does not move</text>
-<path d="M738.8 276 L738.8 160 L430.5 160 L430.5 196 L430.5 196" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linejoin="round"><title>macbook.hdmi → monitor_right: hdmi (via back_edge)</title></path>
-<path d="M670 344.8 L663.8 344.8 L663.8 348.5 L657.5 348.5 L657.5 348.5" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>macbook.thunderbolt → usbc_adapter: usb_c — tethered adapter cable</title></path>
+<path d="M738.8 276 L738.8 160 L430.5 160 L430.5 196 L430.5 196" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linejoin="round"><title>laptop.hdmi → monitor_right: hdmi (via back_edge)</title></path>
+<path d="M670 344.8 L663.8 344.8 L663.8 348.5 L657.5 348.5 L657.5 348.5" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>laptop.usb_c_upper → usbc_adapter: usb_c — tethered adapter cable</title></path>
 <path d="M613.8 326 L613.8 153 L193.2 153 L193.2 196 L193.2 196" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linejoin="round"><title>usbc_adapter.hdmi → monitor_left: hdmi (via back_edge)</title></path>
-<path d="M609.8 371 L609.8 627 L349.5 627 L349.5 641 L349.5 641" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>usbc_adapter.usb_a → usb_switch: usb_a</title></path>
-<path d="M617.8 371 L617.8 621 L500 621 L500 641 L500 641" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>mac_charger → usbc_adapter: usb_c — USB-C power passthrough</title></path>
-<path d="M307.5 513.5 L307.5 615 L357.5 615 L357.5 641 L357.5 641" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>keyboard → usb_switch: usb_c — USB-C to USB-A</title></path>
-<path d="M527.5 513.5 L527.5 609 L365.5 609 L365.5 641 L365.5 641" fill="none" stroke="#78716c" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"><title>mouse → usb_switch: wireless — receiver plugged into the switch</title></path>
+<path d="M613.8 371 L613.8 627 L500 627 L500 641 L500 641" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>laptop_charger → usbc_adapter: usb_c — USB-C power passthrough</title></path>
+<path d="M307.5 513.5 L307.5 621 L353.5 621 L353.5 641 L353.5 641" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>keyboard → usb_switch: usb_c — USB-C to USB-A</title></path>
+<path d="M738.8 413.5 L738.8 615 L361.5 615 L361.5 641 L361.5 641" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>usb_switch → laptop.usb_c_lower: usb_c — takes over the keyboard&#x27;s USB-C port below the adapter; USB-A to USB-C; the adapter&#x27;s only USB-A port holds the mouse receiver</title></path>
+<path d="M565 482.2 L567.5 482.2 L567.5 348.5 L570 348.5 L570 348.5" fill="none" stroke="#78716c" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"><title>mouse → usbc_adapter.usb_a: wireless — receiver plugged into the adapter&#x27;s USB-A port</title></path>
 <path d="M201.2 196 L201.2 146 L40.6 146 L40.6 727.4 L95 727.4 L95 727.4" fill="none" stroke="#78716c" stroke-width="2.0" stroke-dasharray="6 4" stroke-linejoin="round"><title>pc → monitor_left: type not set (via back_edge, pc_spine) — DP or HDMI, at least 2 m</title></path>
 <path d="M438.5 196 L438.5 139 L42.8 139 L42.8 732.2 L95 732.2 L95 732.2" fill="none" stroke="#78716c" stroke-width="2.0" stroke-dasharray="6 4" stroke-linejoin="round"><title>pc → monitor_right: type not set (via back_edge, pc_spine) — DP or HDMI, at least 2 m</title></path>
 <path d="M178.5 715 L178.5 693 L357.5 693 L357.5 685 L357.5 685" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>pc → usb_switch: usb_a (via pc_spine)</title></path>
@@ -26,23 +26,23 @@
 <path d="M209.2 196 L209.2 111 L830.6 111 L830.6 655.8 L730 655.8 L730 655.8" fill="none" stroke="#dc2626" stroke-width="2.0" stroke-linejoin="round"><title>monitor_left → power_board: power (via back_edge, power_riser)</title></path>
 <path d="M446.5 196 L446.5 104 L832.8 104 L832.8 660.6 L730 660.6 L730 660.6" fill="none" stroke="#dc2626" stroke-width="2.0" stroke-linejoin="round"><title>monitor_right → power_board: power (via back_edge, power_riser)</title></path>
 <path d="M617.8 196 L617.8 97 L835 97 L835 665.4 L730 665.4 L730 665.4" fill="none" stroke="#dc2626" stroke-width="2.0" stroke-linejoin="round"><title>speakers → power_board: power (via back_edge, power_riser)</title></path>
-<path d="M555 663 L567.5 663 L567.5 663 L580 663 L580 663" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>mac_charger → power_board: power</title></path>
+<path d="M555 663 L567.5 663 L567.5 663 L580 663 L580 663" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>laptop_charger → power_board: power</title></path>
 <path d="M186.5 715 L186.5 699 L655 699 L655 685 L655 685" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>pc → power_board: power (via pc_spine)</title></path>
 <path d="M730 670.2 L920 670.2 L920 715 L920 715" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>power_board → wall: power — the only lead from the desk to the wall</title></path>
 <line x1="45" y1="118" x2="45" y2="746.6" stroke="#059669" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round"><title>Cable spine</title></line>
 <text x="33" y="363.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 33 363.5)">Cable spine</text>
 <line x1="835" y1="97" x2="835" y2="665.4" stroke="#059669" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round"><title>Power drop</title></line>
 <text x="851" y="363.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 851 363.5)">Power drop</text>
-<rect x="95" y="715" width="175" height="44" rx="6" fill="#d1fae5" stroke="#059669"><title>Fractal Design Meshify C tower</title></rect>
+<rect x="95" y="715" width="175" height="44" rx="6" fill="#d1fae5" stroke="#059669"><title>Mid-tower PC</title></rect>
 <text x="182.5" y="740.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">PC</text>
-<rect x="670" y="276" width="137.5" height="137.5" rx="6" fill="#dbeafe" stroke="#2563eb"><title>MacBook Pro 14&quot; (M5 Pro)</title></rect>
-<text x="738.8" y="348.4" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">MacBook</text>
-<rect x="570" y="326" width="87.5" height="45" rx="6" fill="#dbeafe" stroke="#2563eb"><title>USB-C multiport adapter (HDMI, USB-A, USB-C PD)</title></rect>
+<rect x="670" y="276" width="137.5" height="137.5" rx="6" fill="#dbeafe" stroke="#2563eb"><title>laptop</title></rect>
+<text x="738.8" y="348.4" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Laptop</text>
+<rect x="570" y="326" width="87.5" height="45" rx="6" fill="#dbeafe" stroke="#2563eb"><title>USB-C multiport adapter (HDMI, USB-A, USB-C charging)</title></rect>
 <text x="613.8" y="352.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Adapter</text>
 <rect x="95" y="196" width="212.5" height="45" rx="6" fill="#fef3c7" stroke="#d97706"><title>monitor_left</title></rect>
 <text x="201.2" y="222.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Left monitor</text>
-<rect x="326" y="196" width="225" height="45" rx="6" fill="#fef3c7" stroke="#d97706"><title>AOC Q27G2S</title></rect>
-<text x="438.5" y="222.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">AOC monitor</text>
+<rect x="326" y="196" width="225" height="45" rx="6" fill="#fef3c7" stroke="#d97706"><title>monitor_right</title></rect>
+<text x="438.5" y="222.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Right monitor</text>
 <rect x="207.5" y="276" width="125" height="50" rx="6" fill="#e7e5e4" stroke="#57534e"><title>monitor_arm</title></rect>
 <text x="270" y="304.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Arm base</text>
 <rect x="395" y="177" width="85" height="18" rx="6" fill="#d1fae5" stroke="#059669"><title>webcam</title></rect>
@@ -51,15 +51,15 @@
 <text x="438.8" y="367.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Mic</text>
 <rect x="570" y="196" width="87.5" height="55" rx="6" fill="#d1fae5" stroke="#059669"><title>speakers</title></rect>
 <text x="613.8" y="227.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Speaker</text>
-<rect x="170" y="451" width="275" height="62.5" rx="6" fill="#fef3c7" stroke="#d97706"><title>Keychron Q1 (wired)</title></rect>
-<text x="307.5" y="485.9" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Keychron Q1</text>
-<rect x="490" y="451" width="75" height="62.5" rx="6" fill="#fef3c7" stroke="#d97706"><title>Logitech MX Master</title></rect>
+<rect x="170" y="451" width="275" height="62.5" rx="6" fill="#fef3c7" stroke="#d97706"><title>Wired mechanical keyboard</title></rect>
+<text x="307.5" y="485.9" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Keyboard</text>
+<rect x="490" y="451" width="75" height="62.5" rx="6" fill="#fef3c7" stroke="#d97706"><title>Wireless mouse</title></rect>
 <text x="527.5" y="485.9" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Mouse</text>
 <rect x="295" y="641" width="125" height="44" rx="6" fill="#fef3c7" stroke="#d97706" stroke-dasharray="5 3"><title>usb_switch</title></rect>
 <text x="357.5" y="674.7" font-size="9" text-anchor="middle" fill="#78716c">to buy</text>
 <text x="357.5" y="661.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">USB switch</text>
-<rect x="445" y="641" width="110" height="44" rx="6" fill="#dbeafe" stroke="#2563eb"><title>mac_charger</title></rect>
-<text x="500" y="666.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Mac charger</text>
+<rect x="445" y="641" width="110" height="44" rx="6" fill="#dbeafe" stroke="#2563eb"><title>laptop_charger</title></rect>
+<text x="500" y="666.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Charger</text>
 <rect x="580" y="641" width="150" height="44" rx="6" fill="#e7e5e4" stroke="#57534e" stroke-dasharray="5 3"><title>power_board</title></rect>
 <text x="655" y="674.7" font-size="9" text-anchor="middle" fill="#78716c">to buy</text>
 <text x="655" y="661.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Power board</text>
@@ -78,15 +78,15 @@
 <line x1="436" y1="807" x2="458" y2="807" stroke="#dc2626" stroke-width="2"/>
 <text x="464" y="811" font-size="11" fill="#44403c">Power</text>
 <line x1="511" y1="807" x2="533" y2="807" stroke="#059669" stroke-width="11" stroke-opacity="0.3"/>
-<text x="539" y="811" font-size="11" fill="#44403c">Cable spine</text>
+<text x="539" y="811" font-size="11" fill="#44403c">Cable bundle</text>
 <rect x="40" y="823" width="22" height="12" rx="3" fill="#d1fae5" stroke="#059669"/>
 <text x="68" y="833" font-size="11" fill="#44403c">PC</text>
 <rect x="104" y="823" width="22" height="12" rx="3" fill="#dbeafe" stroke="#2563eb"/>
-<text x="132" y="833" font-size="11" fill="#44403c">MacBook</text>
-<rect x="203" y="823" width="22" height="12" rx="3" fill="#fef3c7" stroke="#d97706"/>
-<text x="231" y="833" font-size="11" fill="#44403c">Shared</text>
-<rect x="295" y="823" width="22" height="12" rx="3" fill="#e7e5e4" stroke="#57534e"/>
-<text x="323" y="833" font-size="11" fill="#44403c">Other</text>
-<rect x="380" y="823" width="22" height="12" rx="3" fill="white" stroke="#57534e" stroke-dasharray="4 2"/>
-<text x="408" y="833" font-size="11" fill="#44403c">Planned / to buy</text>
+<text x="132" y="833" font-size="11" fill="#44403c">Laptop</text>
+<rect x="196" y="823" width="22" height="12" rx="3" fill="#fef3c7" stroke="#d97706"/>
+<text x="224" y="833" font-size="11" fill="#44403c">Shared</text>
+<rect x="288" y="823" width="22" height="12" rx="3" fill="#e7e5e4" stroke="#57534e"/>
+<text x="316" y="833" font-size="11" fill="#44403c">Other</text>
+<rect x="373" y="823" width="22" height="12" rx="3" fill="white" stroke="#57534e" stroke-dasharray="4 2"/>
+<text x="401" y="833" font-size="11" fill="#44403c">Planned / to buy</text>
 </svg>

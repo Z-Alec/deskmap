@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1005" height="798" viewBox="0 0 1005 798" font-family="Helvetica, Arial, sans-serif" role="img">
+<title>Fixed desk, PC + laptop (before)</title>
+<rect width="100%" height="100%" fill="white"/>
+<text x="70" y="30" font-size="15" font-weight="bold" fill="#1c1917">Fixed desk, PC + laptop (before)</text>
+<text x="70" y="49" font-size="11" fill="#78716c">Fixed-height desk · 1500 x 750 mm · top-down, drawn to scale</text>
+<rect x="70" y="183" width="750" height="375" rx="8" fill="#faf7f2" stroke="#a8a29e" stroke-width="1.2"/>
+<text x="845" y="195" font-size="10" fill="#78716c">back</text>
+<text x="845" y="554" font-size="10" fill="#78716c">front (you)</text>
+<rect x="20" y="598" width="810" height="110" rx="10" fill="none" stroke="#d6d3d1" stroke-dasharray="4 4"/>
+<text x="80" y="614" font-size="10" fill="#78716c">UNDERNEATH</text>
+<text x="816" y="643" font-size="10" fill="#78716c" text-anchor="end">Floor</text>
+<path d="M738.8 283 L738.8 167 L430.5 167 L430.5 203 L430.5 203" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linejoin="round"><title>laptop.hdmi → monitor_right: hdmi (via back_edge)</title></path>
+<path d="M670 351.8 L663.8 351.8 L663.8 355.5 L657.5 355.5 L657.5 355.5" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>laptop.usb_c_upper → usbc_adapter: usb_c — tethered adapter cable</title></path>
+<path d="M613.8 333 L613.8 160 L193.2 160 L193.2 203 L193.2 203" fill="none" stroke="#ea580c" stroke-width="1.6" stroke-linejoin="round"><title>usbc_adapter.hdmi → monitor_left: hdmi (via back_edge)</title></path>
+<path d="M565 489.2 L567.5 489.2 L567.5 355.5 L570 355.5 L570 355.5" fill="none" stroke="#78716c" stroke-width="1.6" stroke-dasharray="6 4" stroke-linejoin="round"><title>mouse → usbc_adapter.usb_a: wireless — receiver plugged into the adapter&#x27;s USB-A port</title></path>
+<path d="M613.8 378 L613.8 634 L500 634 L500 648 L500 648" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>laptop_charger → usbc_adapter: usb_c — charges through the adapter&#x27;s USB-C port</title></path>
+<path d="M307.5 520.5 L307.5 532.5 L738.8 532.5 L738.8 420.5 L738.8 420.5" fill="none" stroke="#ca8a04" stroke-width="1.6" stroke-linejoin="round"><title>keyboard → laptop.usb_c_lower: usb_c — the USB-C port below the adapter</title></path>
+<path d="M270 283 L270 153 L40.6 153 L40.6 658 L95 658 L95 658" fill="none" stroke="#ca8a04" stroke-width="2.0" stroke-linejoin="round"><title>monitor_arm → pc: usb_a (via back_edge, cable_drop) — arm USB passthrough</title></path>
+<path d="M201.2 203 L201.2 146 L42.8 146 L42.8 662.8 L95 662.8 L95 662.8" fill="none" stroke="#78716c" stroke-width="2.0" stroke-dasharray="6 4" stroke-linejoin="round"><title>pc → monitor_left: type not set (via back_edge, cable_drop) — DP or HDMI</title></path>
+<path d="M438.5 203 L438.5 139 L45 139 L45 667.6 L95 667.6 L95 667.6" fill="none" stroke="#78716c" stroke-width="2.0" stroke-dasharray="6 4" stroke-linejoin="round"><title>pc → monitor_right: type not set (via back_edge, cable_drop) — DP or HDMI</title></path>
+<path d="M437.5 184 L437.5 132 L47.2 132 L47.2 672.4 L95 672.4 L95 672.4" fill="none" stroke="#ca8a04" stroke-width="2.0" stroke-linejoin="round"><title>webcam → pc: usb_a (via back_edge, cable_drop)</title></path>
+<path d="M438.8 345.5 L438.8 125 L49.4 125 L49.4 677.2 L95 677.2 L95 677.2" fill="none" stroke="#ca8a04" stroke-width="2.0" stroke-linejoin="round"><title>mic → pc: usb_a (via back_edge, cable_drop)</title></path>
+<path d="M609.8 203 L609.8 118 L40.6 118 L40.6 682 L95 682 L95 682" fill="none" stroke="#7c3aed" stroke-width="2.0" stroke-linejoin="round"><title>speakers → pc: audio (via back_edge, cable_drop)</title></path>
+<path d="M209.2 203 L209.2 111 L830.6 111 L830.6 662.8 L730 662.8 L730 662.8" fill="none" stroke="#dc2626" stroke-width="2.0" stroke-linejoin="round"><title>monitor_left → power_board: power (via back_edge, power_drop)</title></path>
+<path d="M446.5 203 L446.5 104 L832.8 104 L832.8 667.6 L730 667.6 L730 667.6" fill="none" stroke="#dc2626" stroke-width="2.0" stroke-linejoin="round"><title>monitor_right → power_board: power (via back_edge, power_drop)</title></path>
+<path d="M617.8 203 L617.8 97 L835 97 L835 672.4 L730 672.4 L730 672.4" fill="none" stroke="#dc2626" stroke-width="2.0" stroke-linejoin="round"><title>speakers → power_board: power (via back_edge, power_drop)</title></path>
+<path d="M555 670 L567.5 670 L567.5 670 L580 670 L580 670" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>laptop_charger → power_board: power</title></path>
+<path d="M182.5 692 L182.5 700 L655 700 L655 692 L655 692" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>pc → power_board: power</title></path>
+<path d="M730 677.2 L920 677.2 L920 648 L920 648" fill="none" stroke="#dc2626" stroke-width="1.6" stroke-linejoin="round"><title>power_board → wall: power</title></path>
+<line x1="45" y1="118" x2="45" y2="682" stroke="#059669" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round"><title>Loose cables to the PC</title></line>
+<text x="33" y="370.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 33 370.5)">Loose cables to the PC</text>
+<line x1="835" y1="97" x2="835" y2="672.4" stroke="#059669" stroke-width="11" stroke-opacity="0.3" stroke-linecap="round"><title>Loose power leads</title></line>
+<text x="851" y="370.5" font-size="10" fill="#059669" text-anchor="middle" transform="rotate(-90 851 370.5)">Loose power leads</text>
+<rect x="95" y="648" width="175" height="44" rx="6" fill="#d1fae5" stroke="#059669"><title>Mid-tower PC</title></rect>
+<text x="182.5" y="673.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">PC</text>
+<rect x="670" y="283" width="137.5" height="137.5" rx="6" fill="#dbeafe" stroke="#2563eb"><title>laptop</title></rect>
+<text x="738.8" y="355.4" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Laptop</text>
+<rect x="570" y="333" width="87.5" height="45" rx="6" fill="#dbeafe" stroke="#2563eb"><title>USB-C multiport adapter (HDMI, USB-A, USB-C charging)</title></rect>
+<text x="613.8" y="359.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Adapter</text>
+<rect x="95" y="203" width="212.5" height="45" rx="6" fill="#fef3c7" stroke="#d97706"><title>monitor_left</title></rect>
+<text x="201.2" y="229.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Left monitor</text>
+<rect x="326" y="203" width="225" height="45" rx="6" fill="#fef3c7" stroke="#d97706"><title>monitor_right</title></rect>
+<text x="438.5" y="229.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Right monitor</text>
+<rect x="207.5" y="283" width="125" height="50" rx="6" fill="#d1fae5" stroke="#059669"><title>Clamp base has USB and audio passthrough ports.</title></rect>
+<text x="270" y="311.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Arm base</text>
+<rect x="395" y="184" width="85" height="18" rx="6" fill="#d1fae5" stroke="#059669"><title>webcam</title></rect>
+<text x="437.5" y="196" font-size="9" font-weight="600" text-anchor="middle" fill="#1c1917">Webcam</text>
+<rect x="395" y="345.5" width="87.5" height="50" rx="6" fill="#d1fae5" stroke="#059669"><title>mic</title></rect>
+<text x="438.8" y="374.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Mic</text>
+<rect x="570" y="203" width="87.5" height="55" rx="6" fill="#d1fae5" stroke="#059669"><title>speakers</title></rect>
+<text x="613.8" y="234.2" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Speaker</text>
+<rect x="170" y="458" width="275" height="62.5" rx="6" fill="#fef3c7" stroke="#d97706"><title>Wired mechanical keyboard</title></rect>
+<text x="307.5" y="492.9" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Keyboard</text>
+<rect x="490" y="458" width="75" height="62.5" rx="6" fill="#fef3c7" stroke="#d97706"><title>Wireless mouse</title></rect>
+<text x="527.5" y="492.9" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Mouse</text>
+<rect x="445" y="648" width="110" height="44" rx="6" fill="#dbeafe" stroke="#2563eb"><title>laptop_charger</title></rect>
+<text x="500" y="673.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Charger</text>
+<rect x="580" y="648" width="150" height="44" rx="6" fill="#e7e5e4" stroke="#57534e"><title>power_board</title></rect>
+<text x="655" y="673.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Power board</text>
+<rect x="875" y="648" width="90" height="44" rx="22" fill="#e7e5e4" stroke="#57534e"><title>wall</title></rect>
+<text x="920" y="673.7" font-size="11" font-weight="600" text-anchor="middle" fill="#1c1917">Wall</text>
+<line x1="40" y1="740" x2="62" y2="740" stroke="#ea580c" stroke-width="2"/>
+<text x="68" y="744" font-size="11" fill="#44403c">HDMI</text>
+<line x1="108" y1="740" x2="130" y2="740" stroke="#ca8a04" stroke-width="2"/>
+<text x="136" y="744" font-size="11" fill="#44403c">USB</text>
+<line x1="169" y1="740" x2="191" y2="740" stroke="#78716c" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="197" y="744" font-size="11" fill="#44403c">Wireless</text>
+<line x1="265" y1="740" x2="287" y2="740" stroke="#78716c" stroke-width="2" stroke-dasharray="6 4"/>
+<text x="293" y="744" font-size="11" fill="#44403c">Type TBC</text>
+<line x1="361" y1="740" x2="383" y2="740" stroke="#7c3aed" stroke-width="2"/>
+<text x="389" y="744" font-size="11" fill="#44403c">Audio</text>
+<line x1="436" y1="740" x2="458" y2="740" stroke="#dc2626" stroke-width="2"/>
+<text x="464" y="744" font-size="11" fill="#44403c">Power</text>
+<line x1="511" y1="740" x2="533" y2="740" stroke="#059669" stroke-width="11" stroke-opacity="0.3"/>
+<text x="539" y="744" font-size="11" fill="#44403c">Cable bundle</text>
+<rect x="40" y="756" width="22" height="12" rx="3" fill="#d1fae5" stroke="#059669"/>
+<text x="68" y="766" font-size="11" fill="#44403c">PC</text>
+<rect x="104" y="756" width="22" height="12" rx="3" fill="#dbeafe" stroke="#2563eb"/>
+<text x="132" y="766" font-size="11" fill="#44403c">Laptop</text>
+<rect x="196" y="756" width="22" height="12" rx="3" fill="#fef3c7" stroke="#d97706"/>
+<text x="224" y="766" font-size="11" fill="#44403c">Shared</text>
+<rect x="288" y="756" width="22" height="12" rx="3" fill="#e7e5e4" stroke="#57534e"/>
+<text x="316" y="766" font-size="11" fill="#44403c">Other</text>
+</svg>

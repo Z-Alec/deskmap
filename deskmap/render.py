@@ -139,12 +139,31 @@ def render(setup: Setup) -> str:
         elif k == "down":
             sa, sb = "bottom", "top"
         elif k == "direct":
-            sa, sb = (("left", "right") if bx < ax else ("right", "left"))
+            # Straight across unless another box sits in the way, then go
+            # under both boxes (toward the front of the desk).
+            lo, hi = sorted((ax + aw, bx + bw))[0], sorted((ax, bx))[1]
+            ylo = min(ay + ah / 2, by + bh / 2)
+            yhi = max(ay + ah / 2, by + bh / 2)
+            blocked = any(
+                n not in (a, b) and ox < hi and ox + ow > lo and oy < yhi + 2 and oy + oh > ylo - 2
+                for n, (ox, oy, ow, oh) in g.boxes.items())
+            if blocked:
+                p["kind"] = "direct_under"
+                sa, sb = "bottom", "bottom"
+            else:
+                sa, sb = (("left", "right") if bx < ax else ("right", "left"))
         else:  # under
             if g._zone_kind(b) == "external":
                 sa, sb = ("right" if bx > ax else "left"), "top"
             elif abs(ay - by) < 1:
-                sa, sb = (("right", "left") if bx > ax else ("left", "right"))
+                lo, hi = sorted((ax + aw, bx + bw))[0], sorted((ax, bx))[1]
+                blocked = any(
+                    n not in (a, b) and abs(oy - ay) < 1 and ox < hi and ox + ow > lo
+                    for n, (ox, oy, ow, oh) in g.boxes.items())
+                if blocked:   # another box in the way: dip under the row
+                    sa, sb = "bottom", "bottom"
+                else:
+                    sa, sb = (("right", "left") if bx > ax else ("left", "right"))
             else:
                 sa, sb = (("bottom", "top") if ay < by else ("top", "bottom"))
         p["sa"], p["sb"] = sa, sb
@@ -194,6 +213,14 @@ def render(setup: Setup) -> str:
         elif k == "direct":
             mx = (ax + bx) / 2
             pts += [(mx, ay), (mx, by), (bx, by)]
+        elif k == "direct_under":
+            x0, x1 = sorted((ax, bx))
+            floor_y = max([ay, by] + [
+                oy + oh for n, (ox, oy, ow, oh) in g.boxes.items()
+                if n not in (p["a"], p["b"]) and setup.zones[setup.devices[n]["zone"]]["kind"] == "surface"
+                and ox < x1 and ox + ow > x0 and oy + oh > min(ay, by) and oy < max(ay, by) + 40])
+            jy = min(floor_y + 12, g.bottom - 6)
+            pts += [(ax, jy), (bx, jy), (bx, by)]
         else:
             if p["sb"] == "top" and p["sa"] in ("left", "right"):
                 pts += [(bx, ay), (bx, by)]
@@ -333,7 +360,7 @@ def render(setup: Setup) -> str:
     if spine_extent:
         out.append(f'<line x1="{_fmt(lx)}" y1="{_fmt(ly)}" x2="{_fmt(lx + 22)}" y2="{_fmt(ly)}" '
                    f'stroke="{SPINE_COLOUR}" stroke-width="11" stroke-opacity="0.3"/>')
-        out.append(f'<text x="{_fmt(lx + 28)}" y="{_fmt(ly + 4)}" font-size="11" fill="#44403c">Cable spine</text>')
+        out.append(f'<text x="{_fmt(lx + 28)}" y="{_fmt(ly + 4)}" font-size="11" fill="#44403c">Cable bundle</text>')
     ly += 24
     lx = g.x0 - 30
     swatches = [(palette[c], setup.devices[c].get("label") or c) for c in computers]

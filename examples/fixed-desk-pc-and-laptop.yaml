@@ -1,0 +1,137 @@
+# yaml-language-server: $schema=../deskmap/schema.json
+# The same PC + laptop setup before the standing desk: a fixed-height desk,
+# the PC on a rolling tray on the floor, and the keyboard plugged straight
+# into the laptop's lower USB-C port.
+schema_version: "0.1"
+name: Fixed desk, PC + laptop (before)
+
+desk:
+  model: Fixed-height desk
+  size_mm: { width: 1500, depth: 750 }
+
+zones:
+  desk:  { kind: surface, moves_with_desk: false, label: On the desk }
+  floor: { kind: underneath, moves_with_desk: false, label: Floor }
+  wall:  { kind: external, label: Wall }
+
+channels:
+  back_edge:  { kind: edge, label: Back edge }
+  cable_drop: { kind: spine, x_mm: -50, label: Loose cables to the PC }
+  power_drop: { kind: spine, x_mm: 1530, label: Loose power leads }
+
+devices:
+  pc:
+    label: PC
+    kind: computer
+    model: Mid-tower PC
+    zone: floor
+    position: { x: 50, w: 350 }
+    notes: On a rolling tray.
+  laptop:
+    label: Laptop
+    kind: laptop
+    zone: desk
+    position: { x: 1200, y: 200, w: 275, d: 275 }
+    ports: [usb_c_upper, usb_c_lower, hdmi]
+  usbc_adapter:
+    label: Adapter
+    kind: hub
+    model: USB-C multiport adapter (HDMI, USB-A, USB-C charging)
+    ports: [hdmi, usb_a, usb_c_charging]
+    zone: desk
+    used_by: [laptop]
+    position: { x: 1000, y: 300, w: 175, d: 90 }
+  monitor_left:
+    label: Left monitor
+    kind: display
+    zone: desk
+    used_by: [pc, laptop]
+    position: { x: 50, y: 40, w: 425, d: 90 }
+  monitor_right:
+    label: Right monitor
+    kind: display
+    zone: desk
+    used_by: [pc, laptop]
+    position: { x: 512, y: 40, w: 450, d: 90 }
+  monitor_arm:
+    label: Arm base
+    kind: mount
+    zone: desk
+    used_by: [pc]
+    position: { x: 275, y: 200, w: 250, d: 100 }
+    notes: Clamp base has USB and audio passthrough ports.
+  webcam:
+    label: Webcam
+    kind: camera
+    zone: desk
+    used_by: [pc]
+    position: { x: 650, y: 2, w: 170, d: 36 }
+  mic:
+    label: Mic
+    kind: microphone
+    zone: desk
+    used_by: [pc]
+    position: { x: 650, y: 325, w: 175, d: 100 }
+  speakers:
+    label: Speaker
+    kind: audio
+    zone: desk
+    used_by: [pc]
+    position: { x: 1000, y: 40, w: 175, d: 110 }
+  keyboard:
+    label: Keyboard
+    kind: input
+    model: Wired mechanical keyboard
+    zone: desk
+    used_by: [pc, laptop]
+    position: { x: 200, y: 550, w: 550, d: 125 }
+  mouse:
+    label: Mouse
+    kind: input
+    model: Wireless mouse
+    zone: desk
+    used_by: [pc, laptop]
+    position: { x: 840, y: 550, w: 150, d: 125 }
+  laptop_charger:
+    label: Charger
+    kind: charger
+    zone: floor
+    used_by: [laptop]
+    position: { x: 750, w: 220 }
+  power_board:
+    label: Power board
+    kind: power
+    zone: floor
+    position: { x: 1020, w: 300 }
+  wall:
+    label: Wall
+    kind: power
+    zone: wall
+    position: { x: 0, w: 180 }
+
+cables:
+  # Laptop side
+  - { from: laptop.hdmi, to: monitor_right, type: hdmi, via: [back_edge] }
+  - { from: laptop.usb_c_upper, to: usbc_adapter, type: usb_c, note: tethered adapter cable }
+  - { from: usbc_adapter.hdmi, to: monitor_left, type: hdmi, via: [back_edge] }
+  - { from: mouse, to: usbc_adapter.usb_a, type: wireless, note: receiver plugged into the adapter's USB-A port }
+  - { from: laptop_charger, to: usbc_adapter, type: usb_c, note: "charges through the adapter's USB-C port" }
+
+  # The keyboard plugs straight into the laptop
+  - { from: keyboard, to: laptop.usb_c_lower, type: usb_c, note: "the USB-C port below the adapter" }
+
+  # PC: loose cables down to the floor
+  - { from: monitor_arm, to: pc, type: usb_a, via: [back_edge, cable_drop], note: arm USB passthrough }
+  - { from: pc, to: monitor_left, via: [back_edge, cable_drop], note: DP or HDMI }
+  - { from: pc, to: monitor_right, via: [back_edge, cable_drop], note: DP or HDMI }
+  - { from: webcam, to: pc, type: usb_a, via: [back_edge, cable_drop] }
+  - { from: mic, to: pc, type: usb_a, via: [back_edge, cable_drop] }
+  - { from: speakers, to: pc, type: audio, via: [back_edge, cable_drop] }
+
+  # Power
+  - { from: monitor_left, to: power_board, type: power, via: [back_edge, power_drop] }
+  - { from: monitor_right, to: power_board, type: power, via: [back_edge, power_drop] }
+  - { from: speakers, to: power_board, type: power, via: [back_edge, power_drop] }
+  - { from: laptop_charger, to: power_board, type: power }
+  - { from: pc, to: power_board, type: power }
+  - { from: power_board, to: wall, type: power }
