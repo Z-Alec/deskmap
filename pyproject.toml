@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "deskmap"
+version = "0.1.0"
+description = "Describe your desk setup in YAML, validate it, and draw a to-scale top-down cable diagram."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.10"
+dependencies = ["pyyaml>=6", "jsonschema>=4.18"]
+keywords = ["desk", "standing-desk", "cable-management", "diagram", "yaml", "svg"]
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Multimedia :: Graphics",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=7"]
+
+[project.scripts]
+deskmap = "deskmap.cli:main"
+
+[tool.setuptools]
+packages = ["deskmap"]
+
+[tool.setuptools.package-data]
+deskmap = ["schema.json"]

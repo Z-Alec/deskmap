@@ -1,0 +1,156 @@
+# yaml-language-server: $schema=../deskmap/schema.json
+# A standing desk shared by a tower PC and a MacBook.
+# The PC stays on the floor, so its cables run up a cable spine; everything
+# else lives on the desk or in the tray and moves with it. A USB switch shares
+# the keyboard and mouse; the monitors are switched with their input buttons.
+schema_version: "0.1"
+name: Standing desk, PC + MacBook
+
+desk:
+  model: 9am HOME Arco
+  size_mm: { width: 1500, depth: 750 }
+  height_range_mm: [630, 1280]
+  status: to_buy
+
+zones:
+  desk:  { kind: surface, label: On the desk }
+  tray:  { kind: underneath, moves_with_desk: true, label: Cable tray — moves with the desk }
+  floor: { kind: underneath, moves_with_desk: false, label: Floor — does not move }
+  wall:  { kind: external, label: Wall }
+
+channels:
+  back_edge:   { kind: edge, label: Back edge }
+  pc_spine:    { kind: spine, x_mm: -50, label: Cable spine }
+  power_riser: { kind: spine, x_mm: 1530, label: Power drop }
+
+devices:
+  # Computers
+  pc:
+    label: PC
+    kind: computer
+    model: Fractal Design Meshify C tower
+    zone: floor
+    position: { x: 50, w: 350 }
+    notes: On a rolling tray; lock the castors.
+  macbook:
+    label: MacBook
+    kind: laptop
+    model: MacBook Pro 14" (M5 Pro)
+    zone: desk
+    position: { x: 1200, y: 200, w: 275, d: 275 }
+    ports: [magsafe, thunderbolt, hdmi]
+
+  # On the desk
+  usbc_adapter:
+    label: Adapter
+    kind: hub
+    model: USB-C multiport adapter (HDMI, USB-A, USB-C PD)
+    zone: desk
+    used_by: [macbook]
+    position: { x: 1000, y: 300, w: 175, d: 90 }
+  monitor_left:
+    label: Left monitor
+    kind: display
+    zone: desk
+    used_by: [pc, macbook]
+    position: { x: 50, y: 40, w: 425, d: 90 }
+  monitor_right:
+    label: AOC monitor
+    kind: display
+    model: AOC Q27G2S
+    zone: desk
+    used_by: [pc, macbook]
+    position: { x: 512, y: 40, w: 450, d: 90 }
+  monitor_arm:
+    label: Arm base
+    kind: mount
+    zone: desk
+    position: { x: 275, y: 200, w: 250, d: 100 }
+  webcam:
+    label: Webcam
+    kind: camera
+    zone: desk
+    used_by: [pc]
+    position: { x: 650, y: 2, w: 170, d: 36 }
+  mic:
+    label: Mic
+    kind: microphone
+    zone: desk
+    used_by: [pc]
+    position: { x: 650, y: 325, w: 175, d: 100 }
+  speakers:
+    label: Speaker
+    kind: audio
+    zone: desk
+    used_by: [pc]
+    position: { x: 1000, y: 40, w: 175, d: 110 }
+  keyboard:
+    label: Keychron Q1
+    kind: input
+    model: Keychron Q1 (wired)
+    zone: desk
+    used_by: [pc, macbook]
+    position: { x: 200, y: 550, w: 550, d: 125 }
+  mouse:
+    label: Mouse
+    kind: input
+    model: Logitech MX Master
+    zone: desk
+    used_by: [pc, macbook]
+    position: { x: 840, y: 550, w: 150, d: 125 }
+
+  # In the tray
+  usb_switch:
+    label: USB switch
+    kind: switch
+    zone: tray
+    used_by: [pc, macbook]
+    status: to_buy
+    position: { x: 450, w: 250 }
+  mac_charger:
+    label: Mac charger
+    kind: charger
+    zone: tray
+    used_by: [macbook]
+    position: { x: 750, w: 220 }
+  power_board:
+    label: Power board
+    kind: power
+    zone: tray
+    status: to_buy
+    position: { x: 1020, w: 300 }
+
+  # Off the desk
+  wall:
+    label: Wall
+    kind: power
+    zone: wall
+    position: { x: 0, w: 180 }
+
+cables:
+  # Mac side
+  - { from: macbook.hdmi, to: monitor_right, type: hdmi, via: [back_edge] }
+  - { from: macbook.thunderbolt, to: usbc_adapter, type: usb_c, note: tethered adapter cable }
+  - { from: usbc_adapter.hdmi, to: monitor_left, type: hdmi, via: [back_edge] }
+  - { from: usbc_adapter.usb_a, to: usb_switch, type: usb_a }
+  - { from: mac_charger, to: usbc_adapter, type: usb_c, note: USB-C power passthrough }
+
+  # Shared keyboard and mouse
+  - { from: keyboard, to: usb_switch, type: usb_c, note: USB-C to USB-A }
+  - { from: mouse, to: usb_switch, type: wireless, note: receiver plugged into the switch }
+
+  # PC: everything climbs the cable spine
+  - { from: pc, to: monitor_left, via: [back_edge, pc_spine], note: "DP or HDMI, at least 2 m" }
+  - { from: pc, to: monitor_right, via: [back_edge, pc_spine], note: "DP or HDMI, at least 2 m" }
+  - { from: pc, to: usb_switch, type: usb_a, via: [pc_spine] }
+  - { from: webcam, to: pc, type: usb_a, via: [back_edge, pc_spine], note: runs along the monitor arm }
+  - { from: mic, to: pc, type: usb_a, via: [back_edge, pc_spine] }
+  - { from: speakers, to: pc, type: audio, via: [back_edge, pc_spine] }
+
+  # Power
+  - { from: monitor_left, to: power_board, type: power, via: [back_edge, power_riser] }
+  - { from: monitor_right, to: power_board, type: power, via: [back_edge, power_riser] }
+  - { from: speakers, to: power_board, type: power, via: [back_edge, power_riser] }
+  - { from: mac_charger, to: power_board, type: power }
+  - { from: pc, to: power_board, type: power, via: [pc_spine] }
+  - { from: power_board, to: wall, type: power, note: the only lead from the desk to the wall }

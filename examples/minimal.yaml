@@ -1,0 +1,28 @@
+# yaml-language-server: $schema=../deskmap/schema.json
+# The smallest useful setup: a laptop, one monitor and a power board.
+# Zones aren't defined, so the defaults apply (desk, tray, floor, wall).
+schema_version: "0.1"
+name: Laptop + one monitor
+
+desk:
+  size_mm: { width: 1200, depth: 600 }
+
+devices:
+  laptop:
+    kind: laptop
+    zone: desk
+    position: { x: 820, y: 280, w: 320, d: 230 }
+  monitor:
+    kind: display
+    zone: desk
+    used_by: [laptop]
+    position: { x: 300, y: 40, w: 600, d: 90 }
+  power_board:
+    kind: power
+    zone: tray
+    position: { x: 500, w: 300 }
+
+cables:
+  - { from: laptop, to: monitor, type: usb_c }
+  - { from: monitor, to: power_board, type: power }
+  - { from: laptop, to: power_board, type: power }

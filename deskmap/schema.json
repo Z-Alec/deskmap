@@ -1,0 +1,196 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Z-Alec/deskmap/main/deskmap/schema.json",
+  "title": "deskmap setup",
+  "description": "A desk setup: the desk, where each device sits, and every cable between them. Distances are in millimetres.",
+  "type": "object",
+  "required": ["schema_version", "desk", "devices"],
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {
+      "description": "Version of this format the file is written against.",
+      "const": "0.1"
+    },
+    "name": {
+      "type": "string",
+      "description": "Short title shown on the diagram."
+    },
+    "notes": {
+      "description": "Free text. Ignored by the renderer.",
+      "type": ["string", "array"],
+      "items": { "type": "string" }
+    },
+    "desk": { "$ref": "#/$defs/desk" },
+    "zones": {
+      "description": "Places a device can live. If omitted, the defaults are: desk (surface), tray (underneath, moves with the desk), floor (underneath, static), wall (external, static).",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": { "$ref": "#/$defs/zone" }
+    },
+    "channels": {
+      "description": "Named cable routes, such as the desk's back edge or a cable spine down to the floor. Cables reference these in `via`.",
+      "type": "object",
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": { "$ref": "#/$defs/channel" }
+    },
+    "devices": {
+      "type": "object",
+      "minProperties": 1,
+      "propertyNames": { "$ref": "#/$defs/id" },
+      "additionalProperties": { "$ref": "#/$defs/device" }
+    },
+    "cables": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/cable" }
+    }
+  },
+  "$defs": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Lowercase identifier: letters, digits and underscores, starting with a letter."
+    },
+    "mm": { "type": "number", "description": "Millimetres." },
+    "status": {
+      "enum": ["owned", "planned", "to_buy"],
+      "default": "owned"
+    },
+    "desk": {
+      "type": "object",
+      "required": ["size_mm"],
+      "additionalProperties": false,
+      "properties": {
+        "model": { "type": "string" },
+        "size_mm": {
+          "type": "object",
+          "required": ["width", "depth"],
+          "additionalProperties": false,
+          "properties": {
+            "width": { "type": "number", "exclusiveMinimum": 0 },
+            "depth": { "type": "number", "exclusiveMinimum": 0 }
+          }
+        },
+        "height_range_mm": {
+          "description": "Lowest and highest desktop height. For a standing desk this sets how much slack cables need.",
+          "type": "array",
+          "prefixItems": [{ "type": "number" }, { "type": "number" }],
+          "minItems": 2,
+          "maxItems": 2
+        },
+        "status": { "$ref": "#/$defs/status" },
+        "notes": { "type": "string" }
+      }
+    },
+    "zone": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "kind": {
+          "description": "surface: on top of the desk. underneath: drawn as a row below the desk. external: off to the side (e.g. a wall socket).",
+          "enum": ["surface", "underneath", "external"]
+        },
+        "moves_with_desk": {
+          "type": "boolean",
+          "description": "True if this zone rises and falls with a standing desk. Defaults to true for surface zones and false otherwise."
+        }
+      }
+    },
+    "channel": {
+      "type": "object",
+      "required": ["kind"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string" },
+        "kind": {
+          "description": "edge: runs along the back edge of the desk. spine: a vertical drop from the desk to the zones underneath, at x_mm.",
+          "enum": ["edge", "spine"]
+        },
+        "x_mm": {
+          "$ref": "#/$defs/mm",
+          "description": "For a spine: distance from the desk's left edge. Negative is off the left side; more than the desk width is off the right side."
+        }
+      },
+      "if": { "properties": { "kind": { "const": "spine" } } },
+      "then": { "required": ["kind", "x_mm"] }
+    },
+    "position": {
+      "type": "object",
+      "description": "On a surface zone: x/y from the desk's back-left corner (y grows toward the user), w = width, d = depth. In underneath and external zones only x and w are used.",
+      "required": ["x", "w"],
+      "additionalProperties": false,
+      "properties": {
+        "x": { "$ref": "#/$defs/mm" },
+        "y": { "$ref": "#/$defs/mm" },
+        "w": { "type": "number", "exclusiveMinimum": 0 },
+        "d": { "type": "number", "exclusiveMinimum": 0 }
+      }
+    },
+    "device": {
+      "type": "object",
+      "required": ["zone"],
+      "additionalProperties": false,
+      "properties": {
+        "label": { "type": "string", "description": "Short name drawn in the box. Defaults to the id." },
+        "kind": {
+          "enum": ["computer", "laptop", "display", "input", "audio", "camera", "microphone",
+                   "hub", "switch", "power", "charger", "mount", "storage", "network", "other"],
+          "default": "other"
+        },
+        "zone": { "$ref": "#/$defs/id" },
+        "position": { "$ref": "#/$defs/position" },
+        "used_by": {
+          "description": "Ids of the computers that use this device. One id: drawn in that computer's colour. Two or more: drawn as shared.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" },
+          "uniqueItems": true
+        },
+        "model": { "type": "string" },
+        "ports": { "type": "array", "items": { "type": "string" } },
+        "status": { "$ref": "#/$defs/status" },
+        "color": {
+          "type": "string",
+          "pattern": "^#[0-9a-fA-F]{6}$",
+          "description": "Override the box fill colour."
+        },
+        "notes": { "type": "string" }
+      },
+      "if": {
+        "properties": { "zone": { "const": "desk" } },
+        "required": ["zone", "position"]
+      },
+      "then": {
+        "properties": { "position": { "required": ["x", "y", "w", "d"] } }
+      }
+    },
+    "endpoint": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*(\\.[a-z0-9_-]+)?$",
+      "description": "A device id, optionally with a port: `macbook` or `macbook.hdmi`."
+    },
+    "cable": {
+      "type": "object",
+      "required": ["from", "to"],
+      "additionalProperties": false,
+      "properties": {
+        "from": { "$ref": "#/$defs/endpoint" },
+        "to": { "$ref": "#/$defs/endpoint" },
+        "type": {
+          "description": "Leave out if not known yet; it's drawn as 'to be confirmed'.",
+          "enum": ["hdmi", "displayport", "usb_a", "usb_c", "thunderbolt", "audio", "power",
+                   "ethernet", "wireless", "other"]
+        },
+        "via": {
+          "description": "Channel ids the cable runs through. Order doesn't matter in v0.1.",
+          "type": "array",
+          "items": { "$ref": "#/$defs/id" },
+          "uniqueItems": true
+        },
+        "length_m": { "type": "number", "exclusiveMinimum": 0, "description": "Actual cable length, if known." },
+        "status": { "$ref": "#/$defs/status" },
+        "note": { "type": "string" }
+      }
+    }
+  }
+}
