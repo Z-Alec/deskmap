@@ -13,7 +13,7 @@ import { connectionToLink, toEdges, toNodes, type DeviceNode, type Size } from "
 import { DeviceNodeView } from "./diagram/DeviceNode";
 import { Legend } from "./diagram/Legend";
 import { LinkEdgeView, SetBendContext, type SetBend } from "./diagram/LinkEdge";
-import { exampleSetup } from "./example";
+import { firstExample } from "./example";
 import { DeviceInspector } from "./inspector/DeviceInspector";
 import { LinkInspector } from "./inspector/LinkInspector";
 import { IssueList } from "./IssueList";
@@ -42,7 +42,7 @@ function withoutSelected(setup: Setup, selection: Selection): Setup {
 }
 
 export function App() {
-  const [setup, setSetup] = useState<Setup>(() => loadSavedSetup() ?? exampleSetup());
+  const [setup, setSetup] = useState<Setup>(() => loadSavedSetup() ?? firstExample());
   const [selection, setSelection] = useState<Selection>(null);
   const [sizes, setSizes] = useState<Record<string, Size>>({});
   const [loadErrors, setLoadErrors] = useState<string[]>([]);
@@ -115,7 +115,7 @@ export function App() {
         name={setup.name}
         onRename={(name) => setSetup({ ...setup, name })}
         onNew={() => replaceSetup(emptySetup())}
-        onExample={() => replaceSetup(exampleSetup())}
+        onExample={replaceSetup}
         onOpened={(result) => (result.ok ? replaceSetup(result.setup) : setLoadErrors(result.errors))}
         onAddDevice={addNewDevice}
         setup={setup}

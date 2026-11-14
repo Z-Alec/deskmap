@@ -1,4 +1,4 @@
-import { BaseEdge, EdgeLabelRenderer, getBezierPath, useReactFlow, type EdgeProps } from "@xyflow/react";
+import { BaseEdge, EdgeLabelRenderer, getBezierPath, Position, useReactFlow, type EdgeProps } from "@xyflow/react";
 import { createContext, useContext, type PointerEvent } from "react";
 import type { Point } from "../model/setup";
 import type { LinkEdge } from "./derive";
@@ -7,9 +7,28 @@ import { LOOK_COLOR, RADIO_LABEL } from "./palette";
 export type SetBend = (linkId: string, bend: Point | null) => void;
 export const SetBendContext = createContext<SetBend>(() => {});
 
-function pathThrough(source: Point, bend: Point, target: Point): string {
-  const control = { x: 2 * bend.x - (source.x + target.x) / 2, y: 2 * bend.y - (source.y + target.y) / 2 };
-  return `M ${source.x},${source.y} Q ${control.x},${control.y} ${target.x},${target.y}`;
+const PORT_EXIT_DISTANCE = 60;
+const PORT_EXIT_DIRECTION: Record<Position, Point> = {
+  [Position.Top]: { x: 0, y: -1 },
+  [Position.Bottom]: { x: 0, y: 1 },
+  [Position.Left]: { x: -1, y: 0 },
+  [Position.Right]: { x: 1, y: 0 },
+};
+
+function awayFromPort(port: Point, side: Position): Point {
+  const direction = PORT_EXIT_DIRECTION[side];
+  return { x: port.x + direction.x * PORT_EXIT_DISTANCE, y: port.y + direction.y * PORT_EXIT_DISTANCE };
+}
+
+function pathThrough(source: Point, sourceSide: Position, bend: Point, target: Point, targetSide: Position): string {
+  const tangent = { x: (target.x - source.x) / 4, y: (target.y - source.y) / 4 };
+  const leaveSource = awayFromPort(source, sourceSide);
+  const enterTarget = awayFromPort(target, targetSide);
+  return [
+    `M ${source.x},${source.y}`,
+    `C ${leaveSource.x},${leaveSource.y} ${bend.x - tangent.x},${bend.y - tangent.y} ${bend.x},${bend.y}`,
+    `C ${bend.x + tangent.x},${bend.y + tangent.y} ${enterTarget.x},${enterTarget.y} ${target.x},${target.y}`,
+  ].join(" ");
 }
 
 function placeAt(point: Point, shift = "-50%, -50%"): string {
@@ -25,7 +44,7 @@ export function LinkEdgeView(props: EdgeProps<LinkEdge>) {
   const source = { x: sourceX, y: sourceY };
   const target = { x: targetX, y: targetY };
   const [curve, midX, midY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
-  const path = data.bend ? pathThrough(source, data.bend, target) : curve;
+  const path = data.bend ? pathThrough(source, sourcePosition, data.bend, target, targetPosition) : curve;
   const handleAt = data.bend ?? { x: midX, y: midY };
   const wireless = data.link.medium === "wireless" ? data.link : null;
 

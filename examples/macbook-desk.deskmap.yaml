@@ -124,10 +124,10 @@ links:
 
 layout:
   devices:
-    monitor: { x: 400, y: 0 }
-    dock: { x: 400, y: 300 }
-    macbook: { x: 750, y: 300 }
-    keyboard: { x: 250, y: 550 }
-    mouse: { x: 550, y: 550 }
-    charger: { x: 1050, y: 300 }
-    power_strip: { x: 750, y: 800 }
+    monitor: { x: 350, y: 0 }
+    dock: { x: 250, y: 300 }
+    macbook: { x: 800, y: 300 }
+    keyboard: { x: 150, y: 600 }
+    mouse: { x: 550, y: 600 }
+    charger: { x: 1300, y: 300 }
+    power_strip: { x: 800, y: 850 }

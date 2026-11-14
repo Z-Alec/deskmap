@@ -1,4 +1,5 @@
 import { useRef } from "react";
+import { EXAMPLES } from "./example";
 import { parseSetup, type ParseResult, type Setup } from "./model/setup";
 import { downloadSetup } from "./persistence";
 
@@ -7,7 +8,7 @@ type Props = {
   name: string;
   onRename: (name: string) => void;
   onNew: () => void;
-  onExample: () => void;
+  onExample: (setup: Setup) => void;
   onOpened: (result: ParseResult) => void;
   onAddDevice: () => void;
 };
@@ -27,7 +28,23 @@ export function Toolbar({ setup, name, onRename, onNew, onExample, onOpened, onA
       <button onClick={onNew}>New</button>
       <button onClick={() => fileInput.current?.click()}>Open…</button>
       <button onClick={() => downloadSetup(setup)}>Save</button>
-      <button onClick={onExample}>Load example</button>
+      <select
+        aria-label="Load example"
+        value=""
+        onChange={(e) => {
+          const example = EXAMPLES[Number(e.target.value)];
+          if (example) onExample(example.setup);
+        }}
+      >
+        <option value="" disabled>
+          Load example…
+        </option>
+        {EXAMPLES.map((example, index) => (
+          <option key={example.name} value={index}>
+            {example.name}
+          </option>
+        ))}
+      </select>
       <button className="primary" onClick={onAddDevice}>
         Add device
       </button>
