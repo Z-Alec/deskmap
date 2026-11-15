@@ -2,6 +2,7 @@ import { Handle, Position, type NodeProps } from "@xyflow/react";
 import type { CSSProperties } from "react";
 import { SIDES, type Port, type Side } from "../model/setup";
 import { RADIO_HANDLE, type DeviceNode } from "./derive";
+import { KIND_LOOK } from "./kinds";
 import { RADIO_LABEL, portFamily } from "./palette";
 
 const SIDE_POSITION: Record<Side, Position> = {
@@ -53,15 +54,19 @@ export function DeviceNodeView({ data, selected }: NodeProps<DeviceNode>) {
   const radios = device.radios ?? [];
   const geometry = nodeGeometry(sides, radios.length > 0);
   const radioNames = radios.map((r) => RADIO_LABEL[r]).join(" · ");
+  const { label: kindLabel, Icon } = KIND_LOOK[device.kind];
 
   return (
     <div
       className={`device${selected ? " selected" : ""}`}
       style={{ width: geometry.width, height: geometry.height, paddingTop: geometry.paddingTop }}
     >
-      <div className="device-name">{device.name}</div>
+      <div className="device-name">
+        <Icon className="device-icon" size={16} aria-label={kindLabel} />
+        {device.name}
+      </div>
       <div className="device-meta">
-        {device.kind}
+        {kindLabel}
         {device.model ? ` · ${device.model}` : ""}
         {device.battery ? " · battery" : ""}
       </div>

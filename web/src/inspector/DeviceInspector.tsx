@@ -1,5 +1,6 @@
 import { addPort, isValidId, removeDevice, removePort, uniqueId, updateDevice, updatePort } from "../model/edit";
 import { CONNECTORS, DEVICE_KINDS, RADIOS, SIDES, type Device, type Port, type Radio, type Setup } from "../model/setup";
+import { KIND_LOOK } from "../diagram/kinds";
 import { RADIO_LABEL } from "../diagram/palette";
 import type { Selection } from "../selection";
 import { IdInput } from "./IdInput";
@@ -46,7 +47,9 @@ export function DeviceInspector({ setup, deviceId, device, onSetupChange, onSele
         Kind
         <select value={device.kind} onChange={(e) => change({ kind: e.target.value as Device["kind"] })}>
           {DEVICE_KINDS.map((kind) => (
-            <option key={kind}>{kind}</option>
+            <option key={kind} value={kind}>
+              {KIND_LOOK[kind].label}
+            </option>
           ))}
         </select>
       </label>

@@ -232,6 +232,15 @@ main {
 .device-name {
   font-weight: 600;
   padding-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.device-icon {
+  flex: none;
+  color: #3b4a5a;
 }
 
 .device-meta {
