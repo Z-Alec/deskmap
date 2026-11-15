@@ -9,6 +9,67 @@ It's built for two jobs:
 - **Planning cable runs, especially on a standing desk.** deskmap knows which zones move with the desk and which don't, so it lists every cable that has to stretch when the desk goes up, and warns about the ones not routed through a cable spine.
 - **Describing your setup to people and AI agents.** A structured file is exact in a way a photo isn't: an agent can answer "what's still plugged into the PC?" or "which cables reach the floor?" from it directly.
 
+## Web app (MVP)
+
+An interactive editor for your desk setup. It runs locally in the browser, with no backend. Your setup autosaves in the browser, and Save downloads it as a YAML file.
+
+```sh
+cd web
+npm install
+npm run dev        # open http://localhost:5173
+```
+
+- Zoom and pan the diagram. Drag devices to match where they sit on your desk.
+- Ports appear on the side of the device they are physically on. A filled dot has a cable in it; a hollow dot is free.
+- Solid lines are cables, coloured by what they carry (power, video, data). Dashed green lines are wireless links.
+- Drag from one port to another to plug in a cable. Drag between two green radio dots to pair wireless devices.
+- Select a cable and drag its handle to reshape it. Double-click the handle to straighten it.
+- Click a device or cable to edit it in the side panel. Delete removes the selection.
+
+### The setup file (`deskmap/0.2`)
+
+The schema lives in [web/src/model/setup.ts](web/src/model/setup.ts). See [examples/macbook-desk.deskmap.yaml](examples/macbook-desk.deskmap.yaml).
+
+```yaml
+schema: deskmap/0.2
+name: MacBook desk
+devices:
+  macbook:
+    name: MacBook Pro 14
+    kind: laptop
+    battery: true
+    radios: [bluetooth, wifi]
+    ports:
+      magsafe: { label: MagSafe 3, connector: magsafe, side: left, carries: [power_in] }
+      hdmi: { label: HDMI, connector: hdmi, side: right, carries: [video] }
+  monitor:
+    name: External monitor
+    kind: monitor
+    ports:
+      hdmi_in: { label: HDMI in, connector: hdmi }
+  mouse:
+    name: Mouse
+    kind: mouse
+    radios: [bluetooth]
+links:
+  - { medium: wired, from: macbook.hdmi, to: monitor.hdmi_in, length_m: 1.5 }
+  - { medium: wireless, from: mouse, to: macbook, radio: bluetooth }
+layout:
+  devices:
+    macbook: { x: 400, y: 300 }
+```
+
+- A **device** is anything with I/O. It has a name and ports, plus optional kind, model, radios and battery.
+- A **port** has a connector (its physical shape, like `usb_c` or `hdmi`), the side of the device it is on, and optionally what it carries (`data`, `video`, `audio`, `power_in`, `power_out`). Shape and capability are kept apart because a USB-C port can be anything from charge-only to Thunderbolt.
+- A **link** is either `wired` (a cable from one port to another) or `wireless` (two devices paired over a radio). A cable always plugs into ports, so a wired link names `device.port` on both ends.
+- **Layout** (where things sit in the diagram) is kept separate from what the setup is, so you can rearrange without changing the setup.
+
+The app also accepts the same structure as JSON.
+
+## Python CLI (`deskmap/0.1`)
+
+The original command-line tool still reads the older `deskmap/0.1` format below. The web app does not read that format.
+
 ## Quick start
 
 ```sh

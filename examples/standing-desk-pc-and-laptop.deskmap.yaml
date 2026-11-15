@@ -1,0 +1,172 @@
+# deskmap/0.2 setup: a standing desk shared by a tower PC and a laptop
+schema: deskmap/0.2
+name: Standing desk, PC + laptop
+
+devices:
+  pc:
+    name: PC
+    kind: desktop
+    model: Mid-tower PC
+    notes: On the floor on a rolling tray; lock the castors. Does not move with the desk, so every cable climbs the cable spine.
+    ports:
+      displayport_1: { label: DisplayPort 1, connector: displayport, carries: [video, audio] }
+      displayport_2: { label: DisplayPort 2, connector: displayport, carries: [video, audio] }
+      usb_a_1: { label: USB-A 1, connector: usb_a, carries: [data] }
+      usb_a_2: { label: USB-A 2, connector: usb_a, carries: [data] }
+      usb_a_3: { label: USB-A 3, connector: usb_a, carries: [data] }
+      audio_out: { label: Line out, connector: audio_3_5mm, carries: [audio] }
+      power_in: { label: Power, connector: ac, carries: [power_in] }
+  laptop:
+    name: Laptop
+    kind: laptop
+    battery: true
+    notes: On the desk.
+    ports:
+      usb_c_upper: { label: Upper USB-C, connector: usb_c, side: left, carries: [data, video, power_in] }
+      usb_c_lower: { label: Lower USB-C, connector: usb_c, side: left, carries: [data, video, power_in] }
+      hdmi: { label: HDMI, connector: hdmi, side: right, carries: [video, audio] }
+  usbc_adapter:
+    name: Adapter
+    kind: adapter
+    model: USB-C multiport adapter (HDMI, USB-A, USB-C charging)
+    notes: On the desk, used by the laptop. Its USB-C cable is built in.
+    ports:
+      usb_c_host: { label: Built-in USB-C cable, connector: usb_c, carries: [data, video, power_out] }
+      hdmi: { label: HDMI, connector: hdmi, carries: [video, audio] }
+      usb_a: { label: USB-A, connector: usb_a, carries: [data] }
+      usb_c_charging: { label: USB-C charging, connector: usb_c, carries: [power_in] }
+  monitor_left:
+    name: Left monitor
+    kind: monitor
+    notes: Shared by the PC and the laptop; switch with the monitor's input button.
+    ports:
+      hdmi_in: { label: HDMI in, connector: hdmi, carries: [video, audio] }
+      displayport_in: { label: DisplayPort in, connector: displayport, carries: [video, audio] }
+      power_in: { label: Power, connector: ac, carries: [power_in] }
+  monitor_right:
+    name: Right monitor
+    kind: monitor
+    notes: Shared by the PC and the laptop; switch with the monitor's input button.
+    ports:
+      hdmi_in: { label: HDMI in, connector: hdmi, carries: [video, audio] }
+      displayport_in: { label: DisplayPort in, connector: displayport, carries: [video, audio] }
+      power_in: { label: Power, connector: ac, carries: [power_in] }
+  monitor_arm:
+    name: Arm base
+    kind: other
+    notes: Monitor arm clamped to the desk; the webcam cable runs along it.
+  webcam:
+    name: Webcam
+    kind: webcam
+    notes: Used by the PC. Its USB cable is built in.
+    ports:
+      usb: { label: Built-in USB-A cable, connector: usb_a, carries: [data] }
+  mic:
+    name: Mic
+    kind: microphone
+    notes: Used by the PC.
+    ports:
+      usb_c: { label: USB-C, connector: usb_c, carries: [data] }
+  speakers:
+    name: Speaker
+    kind: speaker
+    notes: Used by the PC.
+    ports:
+      audio_in: { label: Line in, connector: audio_3_5mm, carries: [audio] }
+      power_in: { label: Power, connector: ac, carries: [power_in] }
+  keyboard:
+    name: Keyboard
+    kind: keyboard
+    model: Wired mechanical keyboard
+    notes: Shared by the PC and the laptop through the USB switch.
+    ports:
+      usb_c: { label: USB-C, connector: usb_c, carries: [data] }
+  mouse:
+    name: Mouse
+    kind: mouse
+    model: Wireless mouse
+    battery: true
+    radios: [rf_2_4ghz]
+    notes: Shared by the PC and the laptop by moving the receiver.
+  mouse_receiver:
+    name: Mouse receiver
+    kind: receiver
+    radios: [rf_2_4ghz]
+    notes: A USB-A dongle, plugged straight into the adapter.
+    ports:
+      usb_a_plug: { label: USB-A plug, connector: usb_a, carries: [data] }
+  usb_switch:
+    name: USB switch
+    kind: hub
+    notes: To buy. In the cable tray, moves with the desk. Shares the keyboard between the PC and the laptop.
+    ports:
+      host_pc: { label: To PC, connector: usb_a, carries: [data] }
+      host_laptop: { label: To laptop, connector: usb_a, carries: [data] }
+      device_1: { label: Device 1, connector: usb_a, side: front, carries: [data] }
+  laptop_charger:
+    name: Charger
+    kind: charger
+    notes: In the cable tray, moves with the desk.
+    ports:
+      usb_c_out: { label: USB-C out, connector: usb_c, carries: [power_out] }
+      ac_plug: { label: Mains plug, connector: ac, carries: [power_in] }
+  power_board:
+    name: Power board
+    kind: power_strip
+    notes: To buy. In the cable tray, moves with the desk.
+    ports:
+      outlet_1: { label: Outlet 1, connector: ac, carries: [power_out] }
+      outlet_2: { label: Outlet 2, connector: ac, carries: [power_out] }
+      outlet_3: { label: Outlet 3, connector: ac, carries: [power_out] }
+      outlet_4: { label: Outlet 4, connector: ac, carries: [power_out] }
+      outlet_5: { label: Outlet 5, connector: ac, carries: [power_out] }
+      plug: { label: Mains plug, connector: ac, carries: [power_in] }
+  wall:
+    name: Wall
+    kind: wall
+    ports:
+      outlet: { label: Wall outlet, connector: ac, carries: [power_out] }
+
+links:
+  - { medium: wired, from: laptop.hdmi, to: monitor_right.hdmi_in, note: Runs along the back edge. }
+  - { medium: wired, from: laptop.usb_c_upper, to: usbc_adapter.usb_c_host, note: The adapter's built-in cable. }
+  - { medium: wired, from: usbc_adapter.hdmi, to: monitor_left.hdmi_in, note: Runs along the back edge. }
+  - { medium: wired, from: laptop_charger.usb_c_out, to: usbc_adapter.usb_c_charging, note: USB-C power passthrough. }
+
+  - { medium: wired, from: keyboard.usb_c, to: usb_switch.device_1, note: USB-C to USB-A. }
+  - { medium: wired, from: usb_switch.host_laptop, to: laptop.usb_c_lower, note: "USB-A to USB-C. Takes over the keyboard's USB-C port below the adapter." }
+  - { medium: wired, from: mouse_receiver.usb_a_plug, to: usbc_adapter.usb_a, note: "No cable: the receiver plugs straight in, filling the adapter's only USB-A port." }
+  - { medium: wireless, from: mouse, to: mouse_receiver, radio: rf_2_4ghz }
+
+  - { medium: wired, from: pc.displayport_1, to: monitor_left.displayport_in, length_m: 2, note: "DP or HDMI, at least 2 m. Climbs the cable spine." }
+  - { medium: wired, from: pc.displayport_2, to: monitor_right.displayport_in, length_m: 2, note: "DP or HDMI, at least 2 m. Climbs the cable spine." }
+  - { medium: wired, from: pc.usb_a_1, to: usb_switch.host_pc, note: Climbs the cable spine. }
+  - { medium: wired, from: webcam.usb, to: pc.usb_a_2, note: Runs along the monitor arm, then down the cable spine. }
+  - { medium: wired, from: mic.usb_c, to: pc.usb_a_3, note: USB-C to USB-A. Climbs the cable spine. }
+  - { medium: wired, from: speakers.audio_in, to: pc.audio_out, note: Climbs the cable spine. }
+
+  - { medium: wired, from: monitor_left.power_in, to: power_board.outlet_1, note: Down the power drop. }
+  - { medium: wired, from: monitor_right.power_in, to: power_board.outlet_2, note: Down the power drop. }
+  - { medium: wired, from: speakers.power_in, to: power_board.outlet_3, note: Down the power drop. }
+  - { medium: wired, from: laptop_charger.ac_plug, to: power_board.outlet_4 }
+  - { medium: wired, from: pc.power_in, to: power_board.outlet_5, note: Climbs the cable spine. }
+  - { medium: wired, from: power_board.plug, to: wall.outlet, note: The only lead from the desk to the wall. }
+
+layout:
+  devices:
+    monitor_left: { x: 100, y: 100 }
+    webcam: { x: 450, y: 0 }
+    monitor_right: { x: 750, y: 100 }
+    speakers: { x: 1100, y: 100 }
+    monitor_arm: { x: 250, y: 350 }
+    mic: { x: 500, y: 350 }
+    usbc_adapter: { x: 850, y: 350 }
+    laptop: { x: 1150, y: 350 }
+    keyboard: { x: 300, y: 600 }
+    mouse: { x: 600, y: 600 }
+    mouse_receiver: { x: 850, y: 600 }
+    usb_switch: { x: 400, y: 850 }
+    laptop_charger: { x: 750, y: 850 }
+    power_board: { x: 1050, y: 850 }
+    pc: { x: 100, y: 1100 }
+    wall: { x: 1350, y: 1100 }

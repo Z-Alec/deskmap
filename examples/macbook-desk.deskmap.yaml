@@ -1,0 +1,133 @@
+# deskmap/0.2 setup: a MacBook Pro 14 on a USB-C dock with one external monitor
+schema: deskmap/0.2
+name: MacBook desk
+
+devices:
+  macbook:
+    name: MacBook Pro 14
+    kind: laptop
+    model: MacBook Pro 14-inch
+    battery: true
+    radios: [bluetooth, wifi]
+    ports:
+      magsafe:
+        label: MagSafe 3
+        connector: magsafe
+        side: left
+        carries: [power_in]
+      thunderbolt_left_1:
+        label: Thunderbolt 1
+        connector: usb_c
+        side: left
+        carries: [data, video, power_in]
+      thunderbolt_left_2:
+        label: Thunderbolt 2
+        connector: usb_c
+        side: left
+        carries: [data, video, power_in]
+      hdmi:
+        label: HDMI
+        connector: hdmi
+        side: right
+        carries: [video, audio]
+      thunderbolt_right:
+        label: Thunderbolt 3
+        connector: usb_c
+        side: right
+        carries: [data, video, power_in]
+      sd_card:
+        label: SD card slot
+        connector: other
+        side: right
+        carries: [data]
+  dock:
+    name: USB-C dock
+    kind: dock
+    ports:
+      usb_c_host:
+        label: To computer
+        connector: usb_c
+        carries: [data, video]
+      hdmi_out:
+        label: HDMI out
+        connector: hdmi
+        carries: [video, audio]
+      usb_a_1:
+        label: USB-A 1
+        connector: usb_a
+        side: front
+      usb_a_2:
+        label: USB-A 2
+        connector: usb_a
+        side: front
+      ethernet:
+        label: Ethernet
+        connector: ethernet
+  monitor:
+    name: External monitor
+    kind: monitor
+    model: 27-inch 4K monitor
+    ports:
+      hdmi_in:
+        label: HDMI in
+        connector: hdmi
+        carries: [video, audio]
+      power_in:
+        label: Power
+        connector: ac
+        carries: [power_in]
+  keyboard:
+    name: Keyboard
+    kind: keyboard
+    model: Wired keyboard
+    ports:
+      usb_c:
+        label: USB-C
+        connector: usb_c
+        carries: [data]
+  mouse:
+    name: Mouse
+    kind: mouse
+    model: Bluetooth mouse
+    battery: true
+    radios: [bluetooth]
+  charger:
+    name: Laptop charger
+    kind: charger
+    model: 96 W USB-C charger
+    ports:
+      usb_c_out:
+        label: USB-C out
+        connector: usb_c
+        carries: [power_out]
+      ac_plug:
+        label: Mains plug
+        connector: ac
+        carries: [power_in]
+  power_strip:
+    name: Power strip
+    kind: power_strip
+    ports:
+      outlet_1: { label: Outlet 1, connector: ac, carries: [power_out] }
+      outlet_2: { label: Outlet 2, connector: ac, carries: [power_out] }
+      outlet_3: { label: Outlet 3, connector: ac, carries: [power_out] }
+      outlet_4: { label: Outlet 4, connector: ac, carries: [power_out] }
+
+links:
+  - { medium: wired, from: charger.usb_c_out, to: macbook.magsafe, length_m: 2, note: USB-C to MagSafe 3 cable }
+  - { medium: wired, from: macbook.thunderbolt_left_1, to: dock.usb_c_host }
+  - { medium: wired, from: dock.hdmi_out, to: monitor.hdmi_in, length_m: 1.5 }
+  - { medium: wired, from: keyboard.usb_c, to: dock.usb_a_1, note: USB-C to USB-A cable }
+  - { medium: wireless, from: mouse, to: macbook, radio: bluetooth }
+  - { medium: wired, from: monitor.power_in, to: power_strip.outlet_1 }
+  - { medium: wired, from: charger.ac_plug, to: power_strip.outlet_2 }
+
+layout:
+  devices:
+    monitor: { x: 350, y: 0 }
+    dock: { x: 250, y: 300 }
+    macbook: { x: 800, y: 300 }
+    keyboard: { x: 150, y: 600 }
+    mouse: { x: 550, y: 600 }
+    charger: { x: 1300, y: 300 }
+    power_strip: { x: 800, y: 850 }
