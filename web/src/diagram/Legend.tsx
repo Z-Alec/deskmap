@@ -2,11 +2,20 @@ import { LOOK_COLOR, LOOK_LABEL, type LinkLook } from "./palette";
 
 const LOOKS: LinkLook[] = ["power", "video", "data", "wireless"];
 
-export function Legend() {
+type LegendProps = { hiddenLooks: ReadonlySet<LinkLook>; onToggleLook: (look: LinkLook) => void };
+
+export function Legend({ hiddenLooks, onToggleLook }: LegendProps) {
   return (
     <div className="legend">
       {LOOKS.map((look) => (
-        <div key={look} className="legend-row">
+        <button
+          key={look}
+          type="button"
+          className="legend-row legend-toggle"
+          aria-pressed={!hiddenLooks.has(look)}
+          title={hiddenLooks.has(look) ? "Show on diagram" : "Hide from diagram"}
+          onClick={() => onToggleLook(look)}
+        >
           <svg width="32" height="8" aria-hidden>
             <line
               x1="0"
@@ -19,7 +28,7 @@ export function Legend() {
             />
           </svg>
           {LOOK_LABEL[look]}
-        </div>
+        </button>
       ))}
       <div className="legend-row">
         <span className="legend-port plugged" /> plugged port

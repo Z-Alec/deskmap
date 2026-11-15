@@ -414,3 +414,36 @@ main {
 .issue-warning {
   border-left-color: #f08c00;
 }
+
+.react-flow__node,
+.react-flow__edge {
+  transition: opacity 150ms ease;
+}
+
+.react-flow__node.dimmed,
+.react-flow__edge.dimmed {
+  opacity: 0.2;
+}
+
+.legend-toggle {
+  width: calc(100% + 8px);
+  padding: 0 4px;
+  margin: 0 -4px;
+  border: none;
+  background: none;
+  text-align: left;
+  font-size: inherit;
+}
+
+.legend-toggle:hover {
+  background: var(--page);
+}
+
+.legend-toggle[aria-pressed="false"] {
+  color: var(--muted);
+  text-decoration: line-through;
+}
+
+.legend-toggle[aria-pressed="false"] svg {
+  opacity: 0.25;
+}

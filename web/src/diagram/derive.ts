@@ -1,6 +1,7 @@
 import type { Connection, Edge, Node } from "@xyflow/react";
 import { linkId, splitPortRef, type Device, type Link, type Point, type Setup } from "../model/setup";
 import type { Selection } from "../selection";
+import type { Lit } from "./focus";
 import { cableFamily, type LinkLook } from "./palette";
 
 export const RADIO_HANDLE = "~radio";
@@ -12,6 +13,8 @@ export type DeviceNode = Node<DeviceNodeData, "device">;
 
 export type LinkEdgeData = { link: Link; look: LinkLook; bend: Point | undefined };
 export type LinkEdge = Edge<LinkEdgeData, "link">;
+
+const DIMMED = "dimmed";
 
 const GRID_COLUMNS = 4;
 const GRID_CELL = { x: 320, y: 260 };
@@ -32,7 +35,12 @@ function pluggedPortsByDevice(setup: Setup): Map<string, Set<string>> {
   return plugged;
 }
 
-export function toNodes(setup: Setup, selection: Selection, sizes: Record<string, Size>): DeviceNode[] {
+export function toNodes(
+  setup: Setup,
+  selection: Selection,
+  sizes: Record<string, Size>,
+  lit: Lit | null,
+): DeviceNode[] {
   const plugged = pluggedPortsByDevice(setup);
   return Object.entries(setup.devices).map(([id, device], index) => ({
     id,
@@ -41,12 +49,19 @@ export function toNodes(setup: Setup, selection: Selection, sizes: Record<string
     data: { device, pluggedPorts: plugged.get(id) ?? new Set() },
     selected: selection?.kind === "device" && selection.id === id,
     measured: sizes[id],
+    className: lit && !lit.devices.has(id) ? DIMMED : undefined,
   }));
 }
 
-export function toEdges(setup: Setup, selection: Selection): LinkEdge[] {
+export function toEdges(
+  setup: Setup,
+  selection: Selection,
+  lit: Lit | null,
+  hiddenLooks: ReadonlySet<LinkLook>,
+): LinkEdge[] {
   return setup.links.map((link) => {
     const id = linkId(link);
+    const look = link.medium === "wired" ? cableFamily(setup, link) : "wireless";
     const ends =
       link.medium === "wired"
         ? {
@@ -62,9 +77,11 @@ export function toEdges(setup: Setup, selection: Selection): LinkEdge[] {
       ...ends,
       animated: link.medium === "wireless",
       selected: selection?.kind === "link" && selection.id === id,
+      hidden: hiddenLooks.has(look),
+      className: lit && !lit.links.has(id) ? DIMMED : undefined,
       data: {
         link,
-        look: link.medium === "wired" ? cableFamily(setup, link) : "wireless",
+        look,
         bend: setup.layout.links[id]?.bend,
       },
     };

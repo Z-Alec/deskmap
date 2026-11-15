@@ -11,8 +11,10 @@ import {
 import { useEffect, useMemo, useRef, useState } from "react";
 import { connectionToLink, toEdges, toNodes, type DeviceNode, type Size } from "./diagram/derive";
 import { DeviceNodeView } from "./diagram/DeviceNode";
+import { focusSet, focusTarget } from "./diagram/focus";
 import { Legend } from "./diagram/Legend";
 import { LinkEdgeView, SetBendContext, type SetBend } from "./diagram/LinkEdge";
+import type { LinkLook } from "./diagram/palette";
 import { firstExample } from "./example";
 import { DeviceInspector } from "./inspector/DeviceInspector";
 import { LinkInspector } from "./inspector/LinkInspector";
@@ -36,6 +38,12 @@ function roundPoint(point: Point): Point {
   return { x: Math.round(point.x), y: Math.round(point.y) };
 }
 
+function toggled<T>(set: ReadonlySet<T>, item: T): ReadonlySet<T> {
+  const next = new Set(set);
+  if (!next.delete(item)) next.add(item);
+  return next;
+}
+
 function withoutSelected(setup: Setup, selection: Selection): Setup {
   if (!selection) return setup;
   return selection.kind === "device" ? removeDevice(setup, selection.id) : removeLink(setup, selection.id);
@@ -44,14 +52,17 @@ function withoutSelected(setup: Setup, selection: Selection): Setup {
 export function App() {
   const [setup, setSetup] = useState<Setup>(() => loadSavedSetup() ?? firstExample());
   const [selection, setSelection] = useState<Selection>(null);
+  const [hoveredDevice, setHoveredDevice] = useState<string | null>(null);
+  const [hiddenLooks, setHiddenLooks] = useState<ReadonlySet<LinkLook>>(() => new Set());
   const [sizes, setSizes] = useState<Record<string, Size>>({});
   const [loadErrors, setLoadErrors] = useState<string[]>([]);
   const [fitRequests, setFitRequests] = useState(0);
   const canvasRef = useRef<HTMLDivElement>(null);
   const { fitView, screenToFlowPosition } = useReactFlow();
 
-  const nodes = useMemo(() => toNodes(setup, selection, sizes), [setup, selection, sizes]);
-  const edges = useMemo(() => toEdges(setup, selection), [setup, selection]);
+  const lit = useMemo(() => focusSet(setup, focusTarget(hoveredDevice, selection)), [setup, hoveredDevice, selection]);
+  const nodes = useMemo(() => toNodes(setup, selection, sizes, lit), [setup, selection, sizes, lit]);
+  const edges = useMemo(() => toEdges(setup, selection, lit, hiddenLooks), [setup, selection, lit, hiddenLooks]);
   const issues = useMemo(() => validate(setup), [setup]);
   const setBend: SetBend = (id, bend) => setSetup((current) => setLinkBend(current, id, bend && roundPoint(bend)));
 
@@ -74,6 +85,7 @@ export function App() {
   function replaceSetup(next: Setup) {
     setSetup(next);
     setSelection(null);
+    setHoveredDevice(null);
     setLoadErrors([]);
     setFitRequests((n) => n + 1);
   }
@@ -144,6 +156,8 @@ export function App() {
               onConnect={connect}
               isValidConnection={(connection) => connectionToLink(setup, connection) !== null}
               onNodeClick={(_, node) => setSelection({ kind: "device", id: node.id })}
+              onNodeMouseEnter={(_, node) => setHoveredDevice(node.id)}
+              onNodeMouseLeave={() => setHoveredDevice(null)}
               onEdgeClick={(_, edge) => setSelection({ kind: "link", id: edge.id })}
               onPaneClick={() => setSelection(null)}
               deleteKeyCode={null}
@@ -154,7 +168,7 @@ export function App() {
               <Controls />
               <MiniMap pannable zoomable />
               <Panel position="top-left">
-                <Legend />
+                <Legend hiddenLooks={hiddenLooks} onToggleLook={(look) => setHiddenLooks((current) => toggled(current, look))} />
               </Panel>
               <Panel position="top-right">
                 <IssueList issues={issues} onSelect={setSelection} />
