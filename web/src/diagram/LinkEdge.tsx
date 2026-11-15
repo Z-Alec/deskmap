@@ -1,6 +1,7 @@
 import { BaseEdge, EdgeLabelRenderer, getBezierPath, Position, useReactFlow, type EdgeProps } from "@xyflow/react";
 import { createContext, useContext, type PointerEvent } from "react";
 import type { Point } from "../model/setup";
+import { routeCable, type MiddleSegmentAxis } from "./cable-route";
 import type { LinkEdge } from "./derive";
 import { LOOK_COLOR, RADIO_LABEL } from "./palette";
 
@@ -31,6 +32,33 @@ function pathThrough(source: Point, sourceSide: Position, bend: Point, target: P
   ].join(" ");
 }
 
+type DragFreedom = MiddleSegmentAxis | "both";
+type EdgeRoute = { path: string; handle: Point; movableAxis: DragFreedom | null };
+
+const DRAG_CURSOR: Record<DragFreedom, string> = { x: "ew-resize", y: "ns-resize", both: "move" };
+
+function airRoute(
+  source: Point,
+  sourceSide: Position,
+  target: Point,
+  targetSide: Position,
+  bend: Point | undefined,
+): EdgeRoute {
+  const [curve, midX, midY] = getBezierPath({
+    sourceX: source.x,
+    sourceY: source.y,
+    sourcePosition: sourceSide,
+    targetX: target.x,
+    targetY: target.y,
+    targetPosition: targetSide,
+  });
+  return {
+    path: bend ? pathThrough(source, sourceSide, bend, target, targetSide) : curve,
+    handle: bend ?? { x: midX, y: midY },
+    movableAxis: "both",
+  };
+}
+
 function placeAt(point: Point, shift = "-50%, -50%"): string {
   return `translate(${shift}) translate(${point.x}px, ${point.y}px)`;
 }
@@ -43,10 +71,10 @@ export function LinkEdgeView(props: EdgeProps<LinkEdge>) {
 
   const source = { x: sourceX, y: sourceY };
   const target = { x: targetX, y: targetY };
-  const [curve, midX, midY] = getBezierPath({ sourceX, sourceY, sourcePosition, targetX, targetY, targetPosition });
-  const path = data.bend ? pathThrough(source, sourcePosition, data.bend, target, targetPosition) : curve;
-  const handleAt = data.bend ?? { x: midX, y: midY };
   const wireless = data.link.medium === "wireless" ? data.link : null;
+  const route: EdgeRoute = wireless
+    ? airRoute(source, sourcePosition, target, targetPosition, data.bend)
+    : routeCable({ at: source, side: sourcePosition }, { at: target, side: targetPosition }, data.bend);
 
   function dragBend(event: PointerEvent<HTMLDivElement>) {
     if (!event.currentTarget.hasPointerCapture(event.pointerId)) return;
@@ -57,21 +85,25 @@ export function LinkEdgeView(props: EdgeProps<LinkEdge>) {
     <>
       <BaseEdge
         id={id}
-        path={path}
+        path={route.path}
         className={`link link-${data.look}`}
         style={{ stroke: LOOK_COLOR[data.look], strokeWidth: selected ? 4 : 2.5 }}
       />
       <EdgeLabelRenderer>
         {wireless && (
-          <div className="edge-label" style={{ transform: placeAt(handleAt, "-50%, -160%"), color: LOOK_COLOR.wireless }}>
+          <div className="edge-label" style={{ transform: placeAt(route.handle, "-50%, -160%"), color: LOOK_COLOR.wireless }}>
             {RADIO_LABEL[wireless.radio]}
           </div>
         )}
-        {selected && (
+        {selected && route.movableAxis && (
           <div
             className="bend-handle nodrag nopan"
-            title="Drag to bend. Double-click to straighten."
-            style={{ transform: placeAt(handleAt), borderColor: LOOK_COLOR[data.look] }}
+            title={wireless ? "Drag to bend. Double-click to straighten." : "Drag to move this run. Double-click to reset."}
+            style={{
+              transform: placeAt(route.handle),
+              borderColor: LOOK_COLOR[data.look],
+              cursor: DRAG_CURSOR[route.movableAxis],
+            }}
             onPointerDown={(event) => {
               event.stopPropagation();
               event.currentTarget.setPointerCapture(event.pointerId);
