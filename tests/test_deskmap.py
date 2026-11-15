@@ -6,7 +6,9 @@ import yaml
 from deskmap import from_dict, load, render
 from deskmap.cli import main
 
-EXAMPLES = sorted((Path(__file__).parent.parent / "examples").glob("*.yaml"))
+EXAMPLES = sorted(
+    p for p in (Path(__file__).parent.parent / "examples").glob("*.yaml") if not p.name.endswith(".deskmap.yaml")
+)
 
 
 def minimal(**overrides):

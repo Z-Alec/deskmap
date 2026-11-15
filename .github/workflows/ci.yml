@@ -20,8 +20,25 @@ jobs:
       - name: Check and render the examples
         run: |
           for f in examples/*.yaml; do
+            case "$f" in *.deskmap.yaml) continue ;; esac
             deskmap check "$f"
             deskmap render "$f" -q
           done
       - name: Example diagrams are up to date
         run: git diff --exit-code -- examples/*.svg
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+      - run: npm ci
+      - run: npm run build
+      - run: npm test
