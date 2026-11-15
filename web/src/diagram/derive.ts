@@ -11,7 +11,7 @@ export type Size = { width: number; height: number };
 export type DeviceNodeData = { device: Device; pluggedPorts: ReadonlySet<string> };
 export type DeviceNode = Node<DeviceNodeData, "device">;
 
-export type LinkEdgeData = { link: Link; look: LinkLook; bend: Point | undefined };
+export type LinkEdgeData = { link: Link; look: LinkLook; bend: Point | undefined; dimmed: boolean };
 export type LinkEdge = Edge<LinkEdgeData, "link">;
 
 const DIMMED = "dimmed";
@@ -71,6 +71,7 @@ export function toEdges(
             targetHandle: splitPortRef(link.to).port,
           }
         : { source: link.from, sourceHandle: RADIO_HANDLE, target: link.to, targetHandle: RADIO_HANDLE };
+    const dimmed = lit !== null && !lit.links.has(id);
     return {
       id,
       type: "link",
@@ -78,11 +79,12 @@ export function toEdges(
       animated: link.medium === "wireless",
       selected: selection?.kind === "link" && selection.id === id,
       hidden: hiddenLooks.has(look),
-      className: lit && !lit.links.has(id) ? DIMMED : undefined,
+      className: dimmed ? DIMMED : undefined,
       data: {
         link,
         look,
         bend: setup.layout.links[id]?.bend,
+        dimmed,
       },
     };
   });

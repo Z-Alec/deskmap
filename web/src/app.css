@@ -421,7 +421,8 @@ main {
 }
 
 .react-flow__node.dimmed,
-.react-flow__edge.dimmed {
+.react-flow__edge.dimmed,
+.edge-label.dimmed {
   opacity: 0.2;
 }
 

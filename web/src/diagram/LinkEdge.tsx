@@ -91,7 +91,7 @@ export function LinkEdgeView(props: EdgeProps<LinkEdge>) {
       />
       <EdgeLabelRenderer>
         {wireless && (
-          <div className="edge-label" style={{ transform: placeAt(route.handle, "-50%, -160%"), color: LOOK_COLOR.wireless }}>
+          <div className={`edge-label${data.dimmed ? " dimmed" : ""}`} style={{ transform: placeAt(route.handle, "-50%, -160%"), color: LOOK_COLOR.wireless }}>
             {RADIO_LABEL[wireless.radio]}
           </div>
         )}
